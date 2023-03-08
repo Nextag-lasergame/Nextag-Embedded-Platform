@@ -1,0 +1,70 @@
+name: Build and test
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  verify-formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: false
+
+      - name: Verify formatting
+        run:
+          clang-format --version &&  
+          chmod +rwx check_formatting.sh && 
+          ./check_formatting.sh
+
+  Native-build-and-test:
+    runs-on: ubuntu-latest
+    needs: verify-formatting
+    
+    strategy:
+      matrix:
+        build_type: [Release, Debug]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Install dependencies
+      run: 
+        sudo apt-get update &&
+        sudo apt-get install -y cmake
+      
+    - name: Cache avr-toolchain
+      id: cache-avr-toolchain
+      uses: actions/cache@v1
+      with:
+        path: .\avr-toolchain
+        key: ${{ runner.os }}-avr-toolchain
+        restore-keys: ${{ runner.os }}-avr-toolchain
+    
+    - name: Setup avr-toolchain
+      if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
+      run:
+        wget https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-linux.tar.bz2 &&
+        mkdir $PWD/avr-toolchain &&
+        tar -xf avr-gcc-11.1.0-x64-linux.tar.bz2 -C $PWD/avr-toolchain
+
+    - name: Configure CMake
+      run: 
+        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -S .
+
+    - name: Build
+      run:
+        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    # - name: Test
+    #   working-directory: ${{github.workspace}}/build
+    #   run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+    #   env:
+    #     GTEST_COLOR: 1
