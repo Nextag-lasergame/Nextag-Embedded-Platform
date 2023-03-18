@@ -11,9 +11,15 @@ if(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
     include(chips/arduino-uno-config.cmake)
 endif(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
 
-set(CMAKE_TOOLCHAIN_FILE toolchain/generic-gcc-avr.cmake)
-include(${CMAKE_TOOLCHAIN_FILE})
+include(toolchain/generic-gcc-avr.cmake)
+
+add_compile_definitions(UNITY_EXCLUDE_FLOAT)
 
 project(NextagEmbeddedPlatform)
 
+add_subdirectory(third-party)
+target_compile_options(unity PRIVATE -mmcu=${AVR_MCU})
+target_link_options(unity PRIVATE -mmcu=${AVR_MCU})
+
 add_avr_executable(Test main.cpp)
+avr_target_link_libraries(Test unity::framework)
