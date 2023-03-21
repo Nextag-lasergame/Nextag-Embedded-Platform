@@ -17,9 +17,15 @@ add_compile_definitions(UNITY_EXCLUDE_FLOAT)
 
 project(NextagEmbeddedPlatform)
 
+enable_testing()
+set(CTEST_OUTPUT_ON_FAILURE 1)
+
 add_subdirectory(third-party)
+add_subdirectory(tests)
+
+configure_file(test_runner.py test_runner.py COPYONLY)
+
 target_compile_options(unity PRIVATE -mmcu=${AVR_MCU})
 target_link_options(unity PRIVATE -mmcu=${AVR_MCU})
 
-add_avr_executable(Test main.cpp)
-avr_target_link_libraries(Test unity::framework)
+add_avr_executable(Main main.cpp)
