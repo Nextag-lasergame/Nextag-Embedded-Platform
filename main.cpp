@@ -2,5 +2,5 @@
 
 int main()
 {
-   DDRB = 0xFF;
+    DDRB = 0xFF;
 }
