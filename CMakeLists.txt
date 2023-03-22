@@ -15,6 +15,12 @@ include(toolchain/generic-gcc-avr.cmake)
 
 add_compile_definitions(UNITY_EXCLUDE_FLOAT)
 
+if(WIN32)
+    set(PYTHON_EXECUTABLE python)
+else()
+    set(PYTHON_EXECUTABLE python3)
+endif()
+
 project(NextagEmbeddedPlatform)
 
 enable_testing()
