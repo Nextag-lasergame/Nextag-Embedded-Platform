@@ -31,7 +31,13 @@ add_subdirectory(tests)
 
 configure_file(test_runner.py test_runner.py COPYONLY)
 
-target_compile_options(unity PRIVATE -mmcu=${AVR_MCU})
-target_link_options(unity PRIVATE -mmcu=${AVR_MCU})
+set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
+        src/drivers/digital_io.cpp)
 
-add_avr_executable(Main main.cpp)
+set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
+        include/NextagEmbeddedPlatform/drivers/digital_io.h
+        )
+
+
+add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})
+avr_target_include_directories(NextagEmbeddedPlatform PUBLIC include)
