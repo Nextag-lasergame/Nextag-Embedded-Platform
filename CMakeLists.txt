@@ -36,6 +36,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/digital_io.h
+        include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
         )
 
 
