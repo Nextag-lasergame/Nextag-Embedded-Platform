@@ -27,7 +27,7 @@ struct DigitalIORegisters;
 class DigitalIO
 {
 public:
-    DigitalIO(Pins pin);
+    explicit DigitalIO(Pins pin);
 
     void setPinMode(Mode mode) noexcept;
     void setState(State state) noexcept;
