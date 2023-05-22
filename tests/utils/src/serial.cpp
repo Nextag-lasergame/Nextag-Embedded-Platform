@@ -9,7 +9,7 @@
 #include <avr/sleep.h>
 #include <stdio.h>
 
-namespace NextagEmbeddedBase::TestUtils
+namespace NextagEmbeddedPlatform::TestUtils
 {
 
 #define BAUD   250000

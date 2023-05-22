@@ -7,14 +7,13 @@
 
 #include "inttypes.h"
 
-namespace NextagEmbeddedBase
-{
+namespace NextagEmbeddedPlatform::Drivers {
 
 enum class Pins : uint16_t
 {
    B0 = 0x2300,
    B1 = 0x2301,
-   P2 = 0x2302,
+   B2 = 0x2302,
    B3 = 0x2303,
    B4 = 0x2304,
    B5 = 0x2305,
@@ -29,14 +28,14 @@ enum class Pins : uint16_t
    C5 = 0x2605,
    C6 = 0x2606,
 
-   D0 = 0x2B00,
-   D1 = 0x2B01,
-   D2 = 0x2B02,
-   D3 = 0x2B03,
-   D4 = 0x2B04,
-   D5 = 0x2B05,
-   D6 = 0x2B06,
-   D7 = 0x2B07,
+   D0 = 0x2900,
+   D1 = 0x2901,
+   D2 = 0x2902,
+   D3 = 0x2903,
+   D4 = 0x2904,
+   D5 = 0x2905,
+   D6 = 0x2906,
+   D7 = 0x2907,
 };
 
-} // namespace NextagEmbeddedBase
+} // namespace NextagEmbeddedPlatform

@@ -21,9 +21,9 @@ void testFunction()
     TEST_ASSERT_EQUAL_INT(1, 1);
 }
 
-int main(void)
+int main()
 {
-    NextagEmbeddedBase::TestUtils::initTestSerial();
+    NextagEmbeddedPlatform::TestUtils::initTestSerial();
 
     UNITY_BEGIN();
     RUN_TEST(testFunction);

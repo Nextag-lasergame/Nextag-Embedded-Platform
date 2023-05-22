@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace NextagEmbeddedBase::TestUtils
+namespace NextagEmbeddedPlatform::TestUtils
 {
 
 void initTestSerial();
