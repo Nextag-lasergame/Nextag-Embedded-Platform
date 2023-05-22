@@ -9,7 +9,6 @@
 
 #include <avr/sleep.h>
 #include <unity.h>
-#include <avr_muc_section.h>
 
 using namespace NextagEmbeddedPlatform::Drivers;
 
@@ -101,7 +100,7 @@ void getStateGetsCorrectStateFromInputRegister()
     for(const auto & pin : pins)
     {
         DigitalIO digitalIo(pin.pinEnum);
-        digitalIo.setPinMode(Mode::INPUT);
+        digitalIo.setPinMode(Mode::OUTPUT);
 
         pin.port = 1 << pin.bit;
         TEST_ASSERT_EQUAL(State::HIGH, digitalIo.getState());
