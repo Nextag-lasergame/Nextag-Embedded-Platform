@@ -19,15 +19,15 @@ DigitalIO::DigitalIO(Pins pin) :
 void DigitalIO::setPinMode(Mode mode) noexcept
 {
     m_registers->direction = mode == Mode::INPUT ?
-                                 m_registers->direction & ~(1 << m_bit):
+                                 m_registers->direction & ~(1 << m_bit) :
                                  m_registers->direction | (1 << m_bit);
 }
 
 void DigitalIO::setState(State state) noexcept
 {
     m_registers->port = state == State::LOW ?
-                                 m_registers->port & ~(1 << m_bit):
-                                 m_registers->port | (1 << m_bit);
+                            m_registers->port & ~(1 << m_bit) :
+                            m_registers->port | (1 << m_bit);
 }
 
 [[nodiscard]] State DigitalIO::getState() noexcept
@@ -36,4 +36,4 @@ void DigitalIO::setState(State state) noexcept
     return registerBitMask > 0 ? State::HIGH : State::LOW;
 }
 
-}
+} // namespace NextagEmbeddedPlatform::Drivers

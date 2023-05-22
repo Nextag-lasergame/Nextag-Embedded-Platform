@@ -56,4 +56,4 @@ int usart_putchar_printf(char var, FILE * stream)
     return 0;
 }
 
-}
+} // namespace NextagEmbeddedPlatform::TestUtils

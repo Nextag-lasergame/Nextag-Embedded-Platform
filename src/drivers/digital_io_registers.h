@@ -1,7 +1,7 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #pragma once
 
@@ -17,4 +17,4 @@ struct DigitalIORegisters
     volatile uint8_t port;
 };
 
-}
+} // namespace NextagEmbeddedPlatform::Drivers

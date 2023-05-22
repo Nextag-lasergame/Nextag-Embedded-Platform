@@ -32,9 +32,10 @@ public:
     void setPinMode(Mode mode) noexcept;
     void setState(State state) noexcept;
     [[nodiscard]] State getState() noexcept;
+
 private:
     uint8_t m_bit;
     DigitalIORegisters * m_registers;
 };
 
-} // namespace NextagEmbeddedPlatform
+} // namespace NextagEmbeddedPlatform::Drivers

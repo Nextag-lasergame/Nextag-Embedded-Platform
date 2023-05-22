@@ -17,12 +17,12 @@ struct pinData
     volatile uint8_t & direction;
     volatile uint8_t & pin;
     volatile uint8_t & port;
-    uint8_t  bit;
+    uint8_t bit;
     Pins pinEnum;
 };
 
 static pinData pins[] =
-{
+    {
         {DDRB, PINB, PORTB, 0, Pins::B0},
         {DDRB, PINB, PORTB, 1, Pins::B1},
         {DDRB, PINB, PORTB, 2, Pins::B2},
@@ -69,7 +69,7 @@ void tearDown()
 
 void directionIsSetCorrectly()
 {
-    for(const auto & pin : pins)
+    for (const auto & pin : pins)
     {
         DigitalIO digitalIo(pin.pinEnum);
 
@@ -83,7 +83,7 @@ void directionIsSetCorrectly()
 
 void setStateSetsCorrectButInOutputRegister()
 {
-    for(const auto & pin : pins)
+    for (const auto & pin : pins)
     {
         DigitalIO digitalIo(pin.pinEnum);
 
@@ -97,7 +97,7 @@ void setStateSetsCorrectButInOutputRegister()
 
 void getStateGetsCorrectStateFromInputRegister()
 {
-    for(const auto & pin : pins)
+    for (const auto & pin : pins)
     {
         DigitalIO digitalIo(pin.pinEnum);
         digitalIo.setPinMode(Mode::OUTPUT);
