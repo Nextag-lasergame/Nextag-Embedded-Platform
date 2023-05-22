@@ -32,7 +32,8 @@ add_subdirectory(tests)
 configure_file(test_runner.py test_runner.py COPYONLY)
 
 set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
-        src/drivers/digital_io.cpp)
+        src/drivers/digital_io.cpp
+        src/drivers/digital_io_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/digital_io.h

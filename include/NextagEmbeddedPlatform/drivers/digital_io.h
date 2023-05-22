@@ -22,12 +22,7 @@ enum class State
     LOW
 };
 
-struct DigitalIORegisters
-{
-    volatile uint8_t pin;
-    volatile uint8_t direction;
-    volatile uint8_t port;
-};
+struct DigitalIORegisters;
 
 class DigitalIO
 {

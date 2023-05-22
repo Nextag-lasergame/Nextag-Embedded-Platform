@@ -5,6 +5,8 @@
 
 #include "NextagEmbeddedPlatform/drivers/digital_io.h"
 
+#include "digital_io_registers.h"
+
 namespace NextagEmbeddedPlatform::Drivers
 {
 
@@ -31,13 +33,7 @@ void DigitalIO::setState(State state) noexcept
 [[nodiscard]] State DigitalIO::getState() noexcept
 {
     const auto registerBitMask = m_registers->pin & (1 << m_bit);
-    if(registerBitMask > 0)
-    {
-        return State::HIGH;
-    }
-
-    return State::LOW;
-//    return registerBitMask > 0 ? State::HIGH : State::LOW;
+    return registerBitMask > 0 ? State::HIGH : State::LOW;
 }
 
 }

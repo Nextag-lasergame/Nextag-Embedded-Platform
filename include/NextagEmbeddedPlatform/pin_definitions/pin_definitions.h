@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "inttypes.h"
+#include <inttypes.h>
 
 namespace NextagEmbeddedPlatform::Drivers {
 
