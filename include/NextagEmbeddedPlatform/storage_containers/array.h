@@ -45,10 +45,10 @@ public:
 
     Array() = default;
     ~Array() = default;
-    Array(const Array &) = delete;
-    Array(Array &&) = delete;
-    Array & operator=(const Array &) = delete;
-    Array & operator=(Array &&) = delete;
+    Array(const Array &) = default;
+    Array(Array &&) = default;
+    Array & operator=(const Array &) = default;
+    Array & operator=(Array &&) = default;
 
     /**
      * Accesses an element in the array. The index is not checked to be within bounds. This operator can
