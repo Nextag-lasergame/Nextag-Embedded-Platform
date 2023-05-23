@@ -28,10 +28,11 @@ namespace NextagEmbeddedPlatform::StorageContainers
  * @tparam T The type of the array
  * @tparam N The number of elements
  */
-template<typename T, size_t N>
+template <typename T, size_t N>
 class Array
 {
     static_assert(N > 0, "Size N has to be bigger than 0");
+
 public:
     /**
      * Definition of modifiable iterator
@@ -167,8 +168,9 @@ public:
     {
         return const_array_iterator(*this, N);
     }
+
 private:
     T m_data[N];
 };
 
-} // namespace NextagEmbeddedPlatform::Drivers
+} // namespace NextagEmbeddedPlatform::StorageContainers
