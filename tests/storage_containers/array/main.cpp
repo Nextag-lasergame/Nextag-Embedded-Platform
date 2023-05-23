@@ -12,11 +12,11 @@
 
 using namespace NextagEmbeddedPlatform::StorageContainers;
 
-static Array<int, 10> s_array;
+static Array<uint32_t, 10> s_array;
 
 void setUp()
 {
-    s_array = Array<int, 10>{};
+    s_array = Array<uint32_t, 10>{};
 }
 
 void tearDown()
@@ -25,33 +25,33 @@ void tearDown()
 
 void arrayWithSize10ReturnsSize10()
 {
-    TEST_ASSERT_EQUAL(10, s_array.size());
+    TEST_ASSERT_EQUAL_INT32(10, s_array.size());
 }
 
 void addingToArrayAddToArrayCorrectly()
 {
     s_array[0] = 100;
-    TEST_ASSERT_EQUAL(100, s_array[0]);
+    TEST_ASSERT_EQUAL_INT32(100, s_array[0]);
 }
 
 void addingTwoItemsToArrayAddToArrayCorrectly()
 {
     s_array[1] = 200;
     s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL(200, s_array[1]);
-    TEST_ASSERT_EQUAL(1000000, s_array[2]);
+    TEST_ASSERT_EQUAL_INT32(200, s_array[1]);
+    TEST_ASSERT_EQUAL_INT32(1000000, s_array[2]);
 }
 
 void accessingItemUsingAtWorksCorrectly()
 {
     s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL(s_array[2], s_array.at(2));
+    TEST_ASSERT_EQUAL_INT32(s_array[2], s_array.at(2));
 }
 
 void accessingFirstElementUsingDataFunctionWorksCorrectly()
 {
     s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL(s_array[2], *((s_array.data()) + 2));
+    TEST_ASSERT_EQUAL_INT32(s_array[2], *((s_array.data()) + 2));
 }
 
 void arraySupportsRangeBasedForLoop()
@@ -63,7 +63,7 @@ void arraySupportsRangeBasedForLoop()
 
 void constArraySupportsRangeBasedForLoop()
 {
-    const Array<int, 5> array{};
+    const Array<uint32_t, 5> array{};
 
     for (const auto & _ : array)
     {
