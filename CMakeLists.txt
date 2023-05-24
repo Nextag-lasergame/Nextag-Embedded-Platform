@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
-set(CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
 option(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO FALSE)
 
@@ -39,8 +39,11 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/digital_io.h
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
         include/NextagEmbeddedPlatform/storage_containers/array.h
+        include/NextagEmbeddedPlatform/storage_containers/circular_buffer.h
+        include/NextagEmbeddedPlatform/storage_containers/generic_data_iterator.h
         )
 
 
 add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})
 avr_target_include_directories(NextagEmbeddedPlatform PUBLIC include)
+
