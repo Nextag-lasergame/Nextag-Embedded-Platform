@@ -25,14 +25,14 @@ void tearDown()
 
 void emptyBufferReturnsBufferAvailableBytesOf0()
 {
-    TEST_ASSERT_EQUAL(0, s_buffer.available());
+    TEST_ASSERT_EQUAL(0, s_buffer.count());
 }
 
 void addingToBufferReturnsCorrectAvailability()
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
-    TEST_ASSERT_EQUAL(2, s_buffer.available());
+    TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
 void addingToBufferReturnsTrueOnSuccess()
@@ -56,7 +56,7 @@ void poppingFromBufferChangesAvailability()
     s_buffer.push_back(0);
     [[maybe_unused]] const auto _ = s_buffer.pop();
 
-    TEST_ASSERT_EQUAL(1, s_buffer.available());
+    TEST_ASSERT_EQUAL(1, s_buffer.count());
 }
 
 void poppingFromBufferReturnsCorrectData()
@@ -88,7 +88,7 @@ void checkingAvailabilityOnCounterOverflowStillWorks()
         [[maybe_unused]] const auto _ = s_buffer.pop();
     }
 
-    TEST_ASSERT_EQUAL_MESSAGE(0, s_buffer.available(), "The buffer availability is not zero before overflowing");
+    TEST_ASSERT_EQUAL_MESSAGE(0, s_buffer.count(), "The buffer availability is not zero before overflowing");
 
     s_buffer.push_back(0);
     s_buffer.push_back(0);
@@ -96,7 +96,7 @@ void checkingAvailabilityOnCounterOverflowStillWorks()
     s_buffer.push_back(0);
     s_buffer.push_back(0);
 
-    TEST_ASSERT_EQUAL(5, s_buffer.available());
+    TEST_ASSERT_EQUAL(5, s_buffer.count());
 }
 
 void poppingOnEmptyBufferReturnsDefaultConstructedObject()
@@ -112,7 +112,7 @@ void peekDoesntChangeAvailability()
     s_buffer.push_back(20);
     [[maybe_unused]] const auto _ = s_buffer.peek();
 
-    TEST_ASSERT_EQUAL(2, s_buffer.available());
+    TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
 void peekReturnCorrectValue()
