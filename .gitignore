@@ -2,3 +2,4 @@
 build
 .idea
 avr-gcc
+docs

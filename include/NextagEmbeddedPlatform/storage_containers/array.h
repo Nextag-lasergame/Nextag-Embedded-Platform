@@ -17,8 +17,8 @@ namespace NextagEmbeddedPlatform::StorageContainers
  * \brief Wrapper around c-style arrays
  *
  * This class provides an easy way to handle compile size known arrays. The size of the array must be bigger than zero,
- * and is specified using the N templates argument. The array is only able to store one datatype, just like c-style arrays, which
- * is specified by the T templates argument.
+ * and is specified using the Size templates argument. The array is only able to store one datatype, just like c-style arrays, which
+ * is specified by the DataType templates argument.
  *
  * The goal of this class is to add more functionality to a standard C-style array. At this point in time this class is purely a
  * wrapper around a C-style array, which tries to stay true to the C-style array interface. Planned features are, but are not limited
@@ -31,7 +31,7 @@ namespace NextagEmbeddedPlatform::StorageContainers
 template <typename T, size_t N>
 class Array
 {
-    static_assert(N > 0, "Size N has to be bigger than 0");
+    static_assert(N > 0, "Size Size has to be bigger than 0");
 
 public:
     /**
