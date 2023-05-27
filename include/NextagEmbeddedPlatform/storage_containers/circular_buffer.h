@@ -5,18 +5,13 @@
 
 #pragma once
 
-#include "array.h"
+#include "NextagEmbeddedPlatform/storage_containers/array.h"
+#include "NextagEmbeddedPlatform/concepts/concepts.h"
 
 #include <inttypes.h>
 
 namespace NextagEmbeddedPlatform::StorageContainers
 {
-
-//template<typename T>
-//concept is_default_constructable = requires(T t)
-//{
-//    T{};
-//};
 
 /**
  *
@@ -30,7 +25,7 @@ namespace NextagEmbeddedPlatform::StorageContainers
  * @tparam DataType The datatype stored within the buffer
  * @tparam Size The size of the buffer
  */
-template<typename DataType, size_t Size>
+template<Concepts::is_default_constructable DataType, size_t Size>
 class CircularBuffer
 {
 public:
@@ -68,9 +63,9 @@ public:
     }
 
     /**
-     * \brief Returns the data that is in the front of te buffer and removes this data from the buffer.
+     * \brief Returns the data that is in the front of the buffer and removes this data from the buffer.
      *
-     * Returns the data that is in the front of te buffer and removes this data from the buffer.
+     * Returns the data that is in the front of the buffer and removes this data from the buffer.
      * Even the buffer is empty it will return a default constructed object. Since
      * it gives no warning that the object is default constructed, and thus was not in the buffer, \ref count should be checked
      * before popping to see if there is any data in the buffer.
@@ -85,6 +80,16 @@ public:
         return m_array[m_tail++ % Size];
     }
 
+    /**
+     * \brief Returns the data that is in the front of the buffer without removing it from the buffer
+     *
+     * Returns the data that is in the front of the buffer without removing this data from the buffer
+     * Even the buffer is empty it will return a default constructed object. Since
+     * it gives no warning that the object is default constructed, and thus was not in the buffer, \ref count should be checked
+     * before popping to see if there is any data in the buffer.
+     *
+     * @return The data
+     */
     [[nodiscard]] DataType peek() noexcept
     {
         if(count() <= 0)

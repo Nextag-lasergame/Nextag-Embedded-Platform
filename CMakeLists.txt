@@ -36,8 +36,12 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
+        include/NextagEmbeddedPlatform/concepts/concepts.h
+
         include/NextagEmbeddedPlatform/drivers/digital_io.h
+
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
+
         include/NextagEmbeddedPlatform/storage_containers/array.h
         include/NextagEmbeddedPlatform/storage_containers/circular_buffer.h
         include/NextagEmbeddedPlatform/storage_containers/generic_data_iterator.h
@@ -46,4 +50,3 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
 
 add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})
 avr_target_include_directories(NextagEmbeddedPlatform PUBLIC include)
-
