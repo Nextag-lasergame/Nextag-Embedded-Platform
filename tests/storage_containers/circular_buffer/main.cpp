@@ -1,7 +1,7 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #include <test_utils/serial.h>
 
@@ -12,11 +12,11 @@
 
 using namespace NextagEmbeddedPlatform::StorageContainers;
 
-static CircularBuffer<uint8_t , 10> s_buffer;
+static CircularBuffer<uint8_t, 10> s_buffer;
 
 void setUp()
 {
-    s_buffer = CircularBuffer<uint8_t , 10>{};
+    s_buffer = CircularBuffer<uint8_t, 10>{};
 }
 
 void tearDown()
@@ -42,7 +42,7 @@ void addingToBufferReturnsTrueOnSuccess()
 
 void addingToBufferWhenBufferIsFullReturnFalse()
 {
-    for(auto i = 0; i < 10; i++)
+    for (auto i = 0; i < 10; i++)
     {
         TEST_ASSERT_TRUE_MESSAGE(s_buffer.push_back(0), "Something went wrong when filling up the buffer");
     }
@@ -70,7 +70,7 @@ void poppingFromBufferReturnsCorrectData()
 
 void poppingFromBufferSizeOverflowReturnsCorrectData()
 {
-    for(auto i = 0; i < 10; i++)
+    for (auto i = 0; i < 10; i++)
     {
         s_buffer.push_back(0);
         [[maybe_unused]] const auto _ = s_buffer.pop();
@@ -82,7 +82,7 @@ void poppingFromBufferSizeOverflowReturnsCorrectData()
 
 void checkingAvailabilityOnCounterOverflowStillWorks()
 {
-    for(uint32_t i = 0; i < 65534 ; i++)
+    for (uint32_t i = 0; i < 65534; i++)
     {
         s_buffer.push_back(0);
         [[maybe_unused]] const auto _ = s_buffer.pop();
@@ -127,21 +127,21 @@ void peekReturnCorrectValue()
 
 int main()
 {
-   NextagEmbeddedPlatform::TestUtils::initTestSerial();
+    NextagEmbeddedPlatform::TestUtils::initTestSerial();
 
-   UNITY_BEGIN();
-   RUN_TEST(emptyBufferReturnsBufferAvailableBytesOf0);
-   RUN_TEST(addingToBufferReturnsCorrectAvailability);
-   RUN_TEST(addingToBufferReturnsTrueOnSuccess);
-   RUN_TEST(addingToBufferWhenBufferIsFullReturnFalse);
-   RUN_TEST(poppingFromBufferChangesAvailability);
-   RUN_TEST(poppingFromBufferReturnsCorrectData);
-   RUN_TEST(poppingFromBufferSizeOverflowReturnsCorrectData);
-   RUN_TEST(checkingAvailabilityOnCounterOverflowStillWorks);
-   RUN_TEST(poppingOnEmptyBufferReturnsDefaultConstructedObject);
-   RUN_TEST(peekDoesntChangeAvailability);
-   RUN_TEST(peekReturnCorrectValue);
-   UNITY_END();
+    UNITY_BEGIN();
+    RUN_TEST(emptyBufferReturnsBufferAvailableBytesOf0);
+    RUN_TEST(addingToBufferReturnsCorrectAvailability);
+    RUN_TEST(addingToBufferReturnsTrueOnSuccess);
+    RUN_TEST(addingToBufferWhenBufferIsFullReturnFalse);
+    RUN_TEST(poppingFromBufferChangesAvailability);
+    RUN_TEST(poppingFromBufferReturnsCorrectData);
+    RUN_TEST(poppingFromBufferSizeOverflowReturnsCorrectData);
+    RUN_TEST(checkingAvailabilityOnCounterOverflowStillWorks);
+    RUN_TEST(poppingOnEmptyBufferReturnsDefaultConstructedObject);
+    RUN_TEST(peekDoesntChangeAvailability);
+    RUN_TEST(peekReturnCorrectValue);
+    UNITY_END();
 
-   sleep_cpu();
+    sleep_cpu();
 }
