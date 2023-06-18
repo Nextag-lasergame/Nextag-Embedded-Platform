@@ -1,6 +1,6 @@
 files_formatted=1
 
-files=$(find . -type f \( -name \*.cpp -o -iname \*.h -o -iname \*.c -o -iname \*.cc -o -iname \*.hpp \) -not -path "*build*")
+files=$(find . -type f \( -name \*.cpp -o -iname \*.h -o -iname \*.c -o -iname \*.cc -o -iname \*.hpp \) -not -path "*build*" -not -path "*third-party*")
 files=$(echo "$files" | tr " " "\n")
 
 for file in $files

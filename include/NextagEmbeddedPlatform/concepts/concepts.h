@@ -8,7 +8,7 @@
 namespace NextagEmbeddedPlatform::Concepts
 {
 
-template<typename T>
+template <typename T>
 concept is_default_constructable = requires(T t)
 {
     T{};

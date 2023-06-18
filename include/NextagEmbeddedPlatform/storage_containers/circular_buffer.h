@@ -1,12 +1,12 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #pragma once
 
-#include "NextagEmbeddedPlatform/storage_containers/array.h"
 #include "NextagEmbeddedPlatform/concepts/concepts.h"
+#include "NextagEmbeddedPlatform/storage_containers/array.h"
 
 #include <inttypes.h>
 
@@ -25,7 +25,7 @@ namespace NextagEmbeddedPlatform::StorageContainers
  * @tparam DataType The datatype stored within the buffer
  * @tparam Size The size of the buffer
  */
-template<Concepts::is_default_constructable DataType, size_t Size>
+template <Concepts::is_default_constructable DataType, size_t Size>
 class CircularBuffer
 {
 public:
@@ -52,13 +52,13 @@ public:
      */
     bool push_back(const DataType & data) noexcept
     {
-        if(count() >= Size)
+        if (count() >= Size)
         {
             return false;
         }
 
         m_array[m_head % Size] = data;
-        m_head ++;
+        m_head++;
         return true;
     }
 
@@ -74,7 +74,7 @@ public:
      */
     [[nodiscard]] DataType pop() noexcept
     {
-        if(count() <= 0)
+        if (count() <= 0)
             return {};
 
         return m_array[m_tail++ % Size];
@@ -92,7 +92,7 @@ public:
      */
     [[nodiscard]] DataType peek() noexcept
     {
-        if(count() <= 0)
+        if (count() <= 0)
             return {};
 
         return m_array[m_tail % Size];
