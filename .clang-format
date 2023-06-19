@@ -27,7 +27,7 @@ BraceWrapping:
   AfterFunction:   true
   AfterNamespace:  true
   AfterStruct:     true
-  AfterUnion:      false
+  AfterUnion:      true
   AfterExternBlock: true
   BeforeCatch:     true
   BeforeElse:      true
@@ -84,3 +84,5 @@ IncludeCategories:
   - Regex:           '.*'
     Priority:        1
 AlignConsecutiveMacros: AcrossEmptyLines
+BreakBeforeConceptDeclarations: Always
+RequiresExpressionIndentation: OuterScope
