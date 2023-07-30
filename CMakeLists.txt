@@ -33,12 +33,14 @@ configure_file(test_runner.py test_runner.py COPYONLY)
 
 set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io.cpp
-        src/drivers/digital_io_registers.h)
+        src/drivers/digital_io_registers.h
+        src/drivers/serial.cpp)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/concepts/concepts.h
 
         include/NextagEmbeddedPlatform/drivers/digital_io.h
+        include/NextagEmbeddedPlatform/drivers/serial.h
 
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
 
