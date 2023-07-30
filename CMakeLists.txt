@@ -26,6 +26,7 @@ project(NextagEmbeddedPlatform)
 enable_testing()
 set(CTEST_OUTPUT_ON_FAILURE 1)
 
+add_subdirectory(examples)
 add_subdirectory(third-party)
 add_subdirectory(tests)
 
