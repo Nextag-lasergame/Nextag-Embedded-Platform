@@ -4,6 +4,8 @@
  */
 
 #include "test_utils/serial.h"
+#include "../../../include/NextagEmbeddedPlatform/drivers/serial.h"
+
 
 #include <avr/io.h>
 #include <avr/sleep.h>
@@ -56,4 +58,5 @@ int usart_putchar_printf(char var, FILE * stream)
     return 0;
 }
 
-} // namespace NextagEmbeddedPlatform::TestUtils
+}
+// namespace NextagEmbeddedPlatform::TestUtils
