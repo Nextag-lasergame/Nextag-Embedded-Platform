@@ -5,6 +5,8 @@
 
 #include "NextagEmbeddedPlatform/drivers/serial.h"
 
+#include <avr/sleep.h>
+
 int main()
 {
     using namespace NextagEmbeddedPlatform;
@@ -14,8 +16,10 @@ int main()
 
     serial.begin(9600);
 
-    for(uint8_t i = 0; i < sizeof(uint8_t); i++)
+    for (uint8_t i = 0; i < sizeof(uint8_t); i++)
     {
         serial.sendByte(data[i]);
     }
+
+    sleep_cpu();
 }
