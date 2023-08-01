@@ -12,4 +12,6 @@ sudo chmod a+x /usr/local/bin/ninja
 sudo apt update
 sudo apt install simavr -y
 
+source ~/.bashrc
+
 cmake -B build -S . -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON -G Ninja

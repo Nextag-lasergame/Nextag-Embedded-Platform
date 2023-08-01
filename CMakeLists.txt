@@ -35,7 +35,8 @@ configure_file(test_runner.py test_runner.py COPYONLY)
 set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io.cpp
         src/drivers/digital_io_registers.h
-        src/drivers/serial.cpp)
+        src/drivers/serial.cpp
+        src/drivers/serial_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/concepts/concepts.h

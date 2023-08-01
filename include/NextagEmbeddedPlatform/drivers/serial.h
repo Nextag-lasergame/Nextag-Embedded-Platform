@@ -10,6 +10,8 @@
 namespace NextagEmbeddedPlatform::Drivers
 {
 
+struct SerialRegisters;
+
 class Serial
 {
 public:
@@ -17,6 +19,9 @@ public:
     void begin(uint32_t baudrate);
 
     void sendByte(uint8_t byte);
+
+private:
+    SerialRegisters * m_registers;
 };
 
 } // namespace NextagEmbeddedPlatform::Drivers
