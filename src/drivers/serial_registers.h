@@ -12,18 +12,18 @@ namespace NextagEmbeddedPlatform::Drivers
 
 struct SerialRegisters
 {
-    uint8_t controlA;
-    uint8_t controlB;
-    uint8_t controlC;
-    uint8_t _reserved_;
+    volatile uint8_t controlA;
+    volatile uint8_t controlB;
+    volatile uint8_t controlC;
+    volatile uint8_t _reserved_;
     union
     {
         struct
         {
-            uint8_t baudRateLow;
-            uint8_t baudRateHigh;
+            volatile uint8_t baudRateLow;
+            volatile uint8_t baudRateHigh;
         };
-        uint16_t baudRate;
+        volatile uint16_t baudRate;
     };
     volatile uint8_t data;
 };

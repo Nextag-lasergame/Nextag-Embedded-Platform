@@ -4,8 +4,7 @@
  */
 
 #include "NextagEmbeddedPlatform/drivers/serial.h"
-
-#include <avr/sleep.h>
+#include "NextagEmbeddedPlatform/drivers/digital_io.h"
 
 int main()
 {
@@ -16,10 +15,8 @@ int main()
 
     serial.begin(9600);
 
-    for (uint8_t i = 0; i < sizeof(uint8_t); i++)
+    for (uint8_t i = 0; i < 12; i++)
     {
         serial.sendByte(data[i]);
     }
-
-    sleep_cpu();
 }
