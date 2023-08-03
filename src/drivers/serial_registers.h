@@ -16,8 +16,7 @@ struct SerialRegisters
     volatile uint8_t controlB;
     volatile uint8_t controlC;
     volatile uint8_t _reserved_;
-    union
-    {
+    union {
         struct
         {
             volatile uint8_t baudRateLow;

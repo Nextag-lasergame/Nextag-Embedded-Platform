@@ -31,7 +31,7 @@ void Serial::begin(uint32_t baudrate)
 
 void Serial::sendByte(uint8_t byte)
 {
-    while (!(m_registers->controlA & (1<<UDRE0)));
+    while (!(m_registers->controlA & _BV(UDRE0))) {}
 
     m_registers->data = byte;
 }
