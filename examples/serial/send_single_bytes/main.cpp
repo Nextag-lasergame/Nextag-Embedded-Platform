@@ -4,7 +4,6 @@
  */
 
 #include "NextagEmbeddedPlatform/drivers/serial.h"
-#include "NextagEmbeddedPlatform/drivers/digital_io.h"
 
 int main()
 {
