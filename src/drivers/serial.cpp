@@ -8,12 +8,23 @@
 #include "serial_registers.h"
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+
 #include <math.h>
+#include <string.h>
 
 namespace NextagEmbeddedPlatform::Drivers
 {
 
 [[nodiscard]] static uint16_t calculateBaudRateRegisterValue(int32_t baudRate);
+
+struct SerialCallback
+{
+    Serial * serial;
+    void (*txInterruptFunction)(void);
+};
+
+static SerialCallback serialCallbacks{};
 
 NextagEmbeddedPlatform::Drivers::Serial::Serial()
 {
@@ -25,8 +36,21 @@ void Serial::begin(uint32_t baudrate)
     const auto baud = calculateBaudRateRegisterValue(baudrate);
     m_registers->baudRate = baud;
 
-    m_registers->controlB = _BV(TXEN0);
+    cli();
+    m_registers->controlB = _BV(TXCIE0) | _BV(TXEN0);
     m_registers->controlC = _BV(UCSZ01) | _BV(UCSZ00);
+    sei();
+
+    serialCallbacks.serial = this;
+    serialCallbacks.txInterruptFunction = []()
+    {
+        auto serial = serialCallbacks.serial;
+
+        if (serial->m_txBuffer.count() > 0)
+        {
+            serialCallbacks.serial->m_registers->data = serialCallbacks.serial->m_txBuffer.pop();
+        }
+    };
 }
 
 void Serial::sendByte(uint8_t byte)
@@ -36,9 +60,47 @@ void Serial::sendByte(uint8_t byte)
     m_registers->data = byte;
 }
 
+void Serial::print(const uint8_t * bytes, uint16_t count)
+{
+    for (size_t i = 0; i < count; i++)
+    {
+        m_txBuffer.push_back(bytes[i]);
+    }
+
+    m_registers->data = m_txBuffer.pop();
+}
+
+void Serial::print(const char * msg)
+{
+    const auto messageLength = strlen(msg);
+    print(reinterpret_cast<const uint8_t*>(msg), messageLength);
+}
+
+void Serial::println(const char * msg)
+{
+    const auto messageLength = strlen(msg);
+    println(reinterpret_cast<const uint8_t*>(msg), messageLength);
+}
+
+void Serial::println(const uint8_t * bytes, uint16_t count)
+{
+    static const uint8_t newlineCharacter = '\n';
+
+    print(bytes, count);
+    print(&newlineCharacter, 1);
+}
+
 static uint16_t calculateBaudRateRegisterValue(int32_t baudRate)
 {
     return static_cast<uint16_t>(round(F_CPU / 16.0 / baudRate - 1.));
+}
+
+ISR(USART_TX_vect)
+{
+    if (serialCallbacks.txInterruptFunction != nullptr)
+    {
+        serialCallbacks.txInterruptFunction();
+    }
 }
 
 } // namespace NextagEmbeddedPlatform::Drivers
