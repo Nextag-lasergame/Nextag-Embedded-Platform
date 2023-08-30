@@ -22,6 +22,7 @@ struct SerialCallback
 {
     Serial * serial;
     void (*txInterruptFunction)(void);
+    void (*rxInterruptFunction)(uint8_t);
 };
 
 static SerialCallback serialCallbacks{};
@@ -37,7 +38,7 @@ void Serial::begin(uint32_t baudrate)
     m_registers->baudRate = baud;
 
     cli();
-    m_registers->controlB = _BV(TXCIE0) | _BV(TXEN0);
+    m_registers->controlB = _BV(RXCIE0) | _BV(TXCIE0) | _BV(TXEN0) | _BV(RXEN0);
     m_registers->controlC = _BV(UCSZ01) | _BV(UCSZ00);
     sei();
 
@@ -49,6 +50,13 @@ void Serial::begin(uint32_t baudrate)
         {
             serialCallbacks.serial->m_registers->data = serialCallbacks.serial->m_txBuffer.pop();
         }
+    };
+
+    serialCallbacks.rxInterruptFunction = [](uint8_t byte)
+    {
+        auto serial = serialCallbacks.serial;
+
+        serial->m_rxBuffer.push_back(byte);
     };
 }
 
@@ -89,9 +97,27 @@ void Serial::println(const uint8_t * bytes, uint16_t count)
     print(&newlineCharacter, 1);
 }
 
+size_t Serial::available()
+{
+    return m_rxBuffer.count();
+}
+
+uint8_t Serial::read()
+{
+   return m_rxBuffer.count() > 0 ? m_rxBuffer.pop() : 0;
+}
+
 static uint16_t calculateBaudRateRegisterValue(int32_t baudRate)
 {
     return static_cast<uint16_t>(round(F_CPU / 16.0 / baudRate - 1.));
+}
+
+ISR(USART_RX_vect)
+{
+    if (serialCallbacks.rxInterruptFunction != nullptr)
+    {
+        serialCallbacks.rxInterruptFunction(UDR0);
+    }
 }
 
 ISR(USART_TX_vect)
