@@ -107,6 +107,11 @@ uint8_t Serial::read()
    return m_rxBuffer.count() > 0 ? m_rxBuffer.pop() : 0;
 }
 
+uint8_t Serial::peek()
+{
+    return m_rxBuffer.peek();
+}
+
 static uint16_t calculateBaudRateRegisterValue(int32_t baudRate)
 {
     return static_cast<uint16_t>(round(F_CPU / 16.0 / baudRate - 1.));
