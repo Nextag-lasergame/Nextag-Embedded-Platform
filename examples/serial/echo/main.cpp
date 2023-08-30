@@ -1,7 +1,7 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #include "NextagEmbeddedPlatform/drivers/serial.h"
 
@@ -9,19 +9,19 @@
 
 int main()
 {
-   using namespace NextagEmbeddedPlatform;
+    using namespace NextagEmbeddedPlatform;
 
-   Drivers::Serial serial{};
+    Drivers::Serial serial{};
 
-   serial.begin(9600);
+    serial.begin(9600);
 
-   for (;;)
-   {
-       while (serial.available() > 0)
-       {
-           serial.sendByte(serial.read());
-       }
+    for (;;)
+    {
+        while (serial.available() > 0)
+        {
+            serial.sendByte(serial.read());
+        }
 
-       _delay_ms(1000);
-   }
+        _delay_ms(1000);
+    }
 }

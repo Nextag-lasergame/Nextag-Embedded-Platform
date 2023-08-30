@@ -52,8 +52,7 @@ void Serial::begin(uint32_t baudrate)
         }
     };
 
-    serialCallbacks.rxInterruptFunction = [](uint8_t byte)
-    {
+    serialCallbacks.rxInterruptFunction = [](uint8_t byte) {
         auto serial = serialCallbacks.serial;
 
         serial->m_rxBuffer.push_back(byte);
@@ -104,7 +103,7 @@ size_t Serial::available()
 
 uint8_t Serial::read()
 {
-   return m_rxBuffer.count() > 0 ? m_rxBuffer.pop() : 0;
+    return m_rxBuffer.count() > 0 ? m_rxBuffer.pop() : 0;
 }
 
 uint8_t Serial::peek()
