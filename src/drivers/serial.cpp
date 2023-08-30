@@ -7,8 +7,8 @@
 
 #include "serial_registers.h"
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/io.h>
 
 #include <math.h>
 #include <string.h>
@@ -42,8 +42,7 @@ void Serial::begin(uint32_t baudrate)
     sei();
 
     serialCallbacks.serial = this;
-    serialCallbacks.txInterruptFunction = []()
-    {
+    serialCallbacks.txInterruptFunction = []() {
         auto serial = serialCallbacks.serial;
 
         if (serial->m_txBuffer.count() > 0)
@@ -73,13 +72,13 @@ void Serial::print(const uint8_t * bytes, uint16_t count)
 void Serial::print(const char * msg)
 {
     const auto messageLength = strlen(msg);
-    print(reinterpret_cast<const uint8_t*>(msg), messageLength);
+    print(reinterpret_cast<const uint8_t *>(msg), messageLength);
 }
 
 void Serial::println(const char * msg)
 {
     const auto messageLength = strlen(msg);
-    println(reinterpret_cast<const uint8_t*>(msg), messageLength);
+    println(reinterpret_cast<const uint8_t *>(msg), messageLength);
 }
 
 void Serial::println(const uint8_t * bytes, uint16_t count)
