@@ -15,13 +15,9 @@ int main()
 
     serial.begin(9600);
 
-<<<<<<< Updated upstream
-    for(;;)
-=======
     serial.println("Hello world");
 
     for (;;)
->>>>>>> Stashed changes
     {
     }
 }
