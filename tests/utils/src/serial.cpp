@@ -4,11 +4,8 @@
  */
 
 #include "test_utils/serial.h"
-#include "../../../include/NextagEmbeddedPlatform/drivers/serial.h"
-
 
 #include <avr/io.h>
-#include <avr/sleep.h>
 #include <stdio.h>
 
 namespace NextagEmbeddedPlatform::TestUtils
