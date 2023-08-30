@@ -28,10 +28,14 @@ public:
     void println(const char * msg);
     void println(const uint8_t * bytes, size_t count);
 
+    [[nodiscard]] size_t available();
+    [[nodiscard]] uint8_t read();
+
 private:
     SerialRegisters * m_registers;
 
     StorageContainers::CircularBuffer<uint8_t, 32> m_txBuffer{};
+    StorageContainers::CircularBuffer<uint8_t, 32> m_rxBuffer{};
 };
 
 } // namespace NextagEmbeddedPlatform::Drivers
