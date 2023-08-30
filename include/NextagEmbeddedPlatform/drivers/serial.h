@@ -30,6 +30,7 @@ public:
 
     [[nodiscard]] size_t available();
     [[nodiscard]] uint8_t read();
+    [[nodiscard]] uint8_t peek();
 
 private:
     SerialRegisters * m_registers;
