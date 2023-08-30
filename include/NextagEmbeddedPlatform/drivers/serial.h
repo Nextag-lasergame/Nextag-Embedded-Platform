@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "NextagEmbeddedPlatform/storage_containers/circular_buffer.h"
+
 #include <inttypes.h>
 
 namespace NextagEmbeddedPlatform::Drivers
@@ -20,8 +22,16 @@ public:
 
     void sendByte(uint8_t byte);
 
+    void print(const char * msg);
+    void print(const uint8_t * bytes, size_t count);
+
+    void println(const char * msg);
+    void println(const uint8_t * bytes, size_t count);
+
 private:
     SerialRegisters * m_registers;
+
+    StorageContainers::CircularBuffer<uint8_t, 32> m_txBuffer{};
 };
 
 } // namespace NextagEmbeddedPlatform::Drivers
