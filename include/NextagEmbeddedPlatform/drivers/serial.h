@@ -17,7 +17,12 @@ struct SerialRegisters;
 class Serial
 {
 public:
-    Serial();
+    ~Serial() = default;
+    Serial(Serial &) = delete;
+    Serial(Serial &&) = delete;
+    Serial & operator=(Serial&) = delete;
+    Serial & operator=(Serial&&) = delete;
+
     void begin(uint32_t baudrate);
 
     void sendByte(uint8_t byte);
@@ -31,6 +36,11 @@ public:
     [[nodiscard]] size_t available();
     [[nodiscard]] uint8_t read();
     [[nodiscard]] uint8_t peek();
+
+    static Serial serial;
+
+protected:
+    Serial();
 
 private:
     SerialRegisters * m_registers;
