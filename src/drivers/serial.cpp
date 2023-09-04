@@ -16,11 +16,12 @@
 namespace NextagEmbeddedPlatform::Drivers
 {
 
+Serial Serial::serial{};
+
 [[nodiscard]] static uint16_t calculateBaudRateRegisterValue(int32_t baudRate);
 
 struct SerialCallback
 {
-    Serial * serial;
     void (*txInterruptFunction)(void);
     void (*rxInterruptFunction)(uint8_t);
 };
@@ -42,20 +43,19 @@ void Serial::begin(uint32_t baudrate)
     m_registers->controlC = _BV(UCSZ01) | _BV(UCSZ00);
     sei();
 
-    serialCallbacks.serial = this;
     serialCallbacks.txInterruptFunction = []() {
-        auto serial = serialCallbacks.serial;
+        auto &serial = Serial::serial;
 
-        if (serial->m_txBuffer.count() > 0)
+        if (serial.m_txBuffer.count() > 0)
         {
-            serialCallbacks.serial->m_registers->data = serialCallbacks.serial->m_txBuffer.pop();
+            serial.m_registers->data = serial.m_txBuffer.pop();
         }
     };
 
     serialCallbacks.rxInterruptFunction = [](uint8_t byte) {
-        auto serial = serialCallbacks.serial;
+        auto &serial = Serial::serial;
 
-        serial->m_rxBuffer.push_back(byte);
+        serial.m_rxBuffer.push_back(byte);
     };
 }
 

@@ -11,7 +11,7 @@ int main()
 {
     using namespace NextagEmbeddedPlatform;
 
-    Drivers::Serial serial{};
+    auto &serial = Drivers::Serial::serial;
 
     serial.begin(9600);
 
