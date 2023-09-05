@@ -1,1 +1,2 @@
 add_subdirectory(digital_io)
+add_subdirectory(timer)
