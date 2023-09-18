@@ -22,9 +22,9 @@ public:
     Timer& operator=(Timer&) = delete;
     Timer& operator=(Timer&&) = delete;
 
-    static Timer timer0;
+    static Timer & timer0;
 
-    void setMode(TimerMode mode);
+    virtual void setMode(TimerMode mode) = 0;
 
 protected:
     Timer() = default;
