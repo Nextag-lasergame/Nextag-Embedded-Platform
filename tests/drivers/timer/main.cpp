@@ -21,7 +21,7 @@ void tearDown()
 {
 }
 
-void setModeSetsTimer0ModeCorrectly()
+void Timer0_SetModeToCTC_SetsCorrectRegisters()
 {
     auto & timer0 = Timer::timer0;
 
@@ -35,8 +35,8 @@ int main()
    NextagEmbeddedPlatform::TestUtils::initTestSerial();
 
    UNITY_BEGIN();
-   RUN_TEST(setModeSetsTimer0ModeCorrectly);
+   RUN_TEST(Timer0_SetModeToCTC_SetsCorrectRegisters);
    UNITY_END();
 
-   sleep_cpu();
+    sleep_cpu();
 }
