@@ -41,7 +41,8 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io_registers.h
         src/drivers/serial.cpp
         src/drivers/serial_registers.h
-        src/drivers/timer.cpp)
+        src/drivers/timer.cpp
+        src/drivers/timer_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/concepts/concepts.h
