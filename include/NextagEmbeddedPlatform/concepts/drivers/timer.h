@@ -18,10 +18,10 @@ template <typename T>
 concept timer = requires(T t, NextagEmbeddedPlatform::Drivers::TimerMode mode, uint16_t value, NextagEmbeddedPlatform::Drivers::TimerClock clock)
 {
     {t.setMode(mode)} -> returns_void;
-    t.setCompareA(value);
-    t.setCompareB(value);
-    t.setClockSource(clock);
-    t.stop();
+    {t.setCompareA(value)} -> returns_void;
+    {t.setCompareB(value)} -> returns_void;
+    {t.setClockSource(clock)} -> returns_void;
+    {t.stop()} -> returns_void;
 };
 
 } // namespace NextagEmbeddedPlatform::Concepts
