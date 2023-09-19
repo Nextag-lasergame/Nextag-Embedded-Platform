@@ -21,6 +21,9 @@ public:
     void setCompareA(uint16_t value) final;
     void setCompareB(uint16_t value) final;
 
+    void setClockSource(TimerClock clock) final;
+    void stop() final;
+
 private:
     TimerRegister<uint8_t> * m_registers;
 };
