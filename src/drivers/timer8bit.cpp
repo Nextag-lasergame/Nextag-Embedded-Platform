@@ -3,7 +3,9 @@
 * Licensed using the MIT license
  */
 
-#include "timer8bit.h"
+#include "NextagEmbeddedPlatform/drivers/timer8bit.h"
+
+#include "timer_registers.h"
 
 #include <avr/io.h>
 
@@ -46,5 +48,7 @@ void Timer8Bit::stop()
 {
 //    m_registers->controlB = m_registers->controlB & ~(_BV(CS00) | _BV(CS01) | _BV(CS02))
 }
+
+Timer8Bit Timer8Bit::timer0{reinterpret_cast<TimerRegister<uint8_t>*>(0x44)};
 
 } // namespace NextagEmbeddedPlatform::Drivers

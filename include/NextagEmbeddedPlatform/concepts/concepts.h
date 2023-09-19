@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "typetraits.h"
+
 namespace NextagEmbeddedPlatform::Concepts
 {
 
@@ -13,5 +15,8 @@ concept is_default_constructable = requires(T t)
 {
     T{};
 };
+
+template<typename T>
+concept returns_void = is_same<void, T>::value;
 
 } // namespace NextagEmbeddedPlatform::Concepts
