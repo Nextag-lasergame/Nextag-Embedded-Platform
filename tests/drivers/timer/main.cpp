@@ -5,13 +5,13 @@
 
 #include <test_utils/serial.h>
 
-#include <NextagEmbeddedPlatform/drivers/timer.h>
+#include <NextagEmbeddedPlatform/peripherals.h>
 
 #include <avr/sleep.h>
 #include <avr/io.h>
 #include <unity.h>
 
-using namespace NextagEmbeddedPlatform::Drivers;
+using namespace NextagEmbeddedPlatform;
 
 //void setUp()
 //{
@@ -76,10 +76,10 @@ int main()
 //   RUN_TEST(Timer0_SetCompareBToHigh_ClipsValueInRegister);
 //   UNITY_END();
 
-    auto & timer = Timer::timer0;
-    timer.setMode(TimerMode::CTC);
+    auto & timer = Peripherals::timer0;
+    timer.setMode(Drivers::TimerMode::CTC);
     timer.setCompareA(200);
-    timer.setClockSource(TimerClock::SYSTEM_PRESCALER_1);
+    timer.setClockSource(Drivers::TimerClock::SYSTEM_PRESCALER_1);
 
     sleep_cpu();
 }

@@ -7,10 +7,13 @@
 
 #include <inttypes.h>
 
-template<typename T>
+namespace NextagEmbeddedPlatform::Drivers
+{
+
+template <typename T>
 struct TimerRegister;
 
-template<>
+template <>
 struct TimerRegister<uint8_t>
 {
     volatile uint8_t controlA;
@@ -20,7 +23,7 @@ struct TimerRegister<uint8_t>
     volatile uint8_t compareB;
 };
 
-template<>
+template <>
 struct TimerRegister<uint16_t>
 {
     volatile uint8_t controlA;
@@ -31,3 +34,5 @@ struct TimerRegister<uint16_t>
     volatile uint16_t compareA;
     volatile uint16_t compareB;
 };
+
+} // namespace NextagEmbeddedPlatform::Drivers
