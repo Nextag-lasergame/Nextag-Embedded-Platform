@@ -19,4 +19,7 @@ concept is_default_constructable = requires(T t)
 template<typename T>
 concept returns_void = is_same<void, T>::value;
 
+template<typename T, typename ReturnType>
+concept returns_type = is_same<ReturnType, T>::value;
+
 } // namespace NextagEmbeddedPlatform::Concepts
