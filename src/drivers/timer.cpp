@@ -10,7 +10,7 @@
 namespace NextagEmbeddedPlatform::Drivers
 {
 
-static Timer8Bit timer0Definition{reinterpret_cast<TimerRegister<uint8_t>*>(0x44)};
+static timer auto timer0Definition = Timer8Bit{reinterpret_cast<TimerRegister<uint8_t>*>(0x44)};
 Timer & Timer::timer0 = timer0Definition;
 
 } // namespace NextagEmbeddedPlatform::Drivers
