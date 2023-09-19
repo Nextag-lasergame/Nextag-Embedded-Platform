@@ -44,6 +44,8 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/serial.cpp
         src/drivers/serial_registers.h
         src/drivers/timer.cpp
+        src/drivers/timer8bit.cpp
+        src/drivers/timer8bit.h
         src/drivers/timer_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS

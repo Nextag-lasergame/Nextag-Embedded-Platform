@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <inttypes.h>
+
 namespace NextagEmbeddedPlatform::Drivers
 {
 
@@ -25,6 +27,8 @@ public:
     static Timer & timer0;
 
     virtual void setMode(TimerMode mode) = 0;
+    virtual void setCompareA(uint16_t value) = 0;
+    virtual void setCompareB(uint16_t value) = 0;
 
 protected:
     Timer() = default;
