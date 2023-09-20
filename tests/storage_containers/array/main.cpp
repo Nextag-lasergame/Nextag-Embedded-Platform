@@ -58,6 +58,7 @@ void arraySupportsRangeBasedForLoop()
 {
     for (const auto & _ : s_array)
     {
+        (void) _;
     }
 }
 
@@ -67,6 +68,7 @@ void constArraySupportsRangeBasedForLoop()
 
     for (const auto & _ : array)
     {
+        (void) _;
     }
 }
 

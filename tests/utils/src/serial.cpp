@@ -47,7 +47,7 @@ void usart_putchar(char data)
     UDR0 = data;
 }
 
-int usart_putchar_printf(char var, FILE * stream)
+int usart_putchar_printf(char var, FILE * /*stream*/)
 {
     // translate \n to \r for br@y++ terminal
     if (var == '\n') usart_putchar('\r');

@@ -38,8 +38,8 @@ public:
     }
 
 private:
-    size_t m_index;
     Collection & m_collection;
+    size_t m_index;
 };
 
 } // namespace NextagEmbeddedPlatform::StorageContainers
