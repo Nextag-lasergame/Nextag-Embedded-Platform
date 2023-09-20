@@ -10,6 +10,7 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+add_compile_options(-Werror)
 
 option(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO FALSE)
 
@@ -58,6 +59,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/timer8bit.h
         include/NextagEmbeddedPlatform/drivers/timer_clock.h
         include/NextagEmbeddedPlatform/drivers/timer_mode.h
+        include/NextagEmbeddedPlatform/drivers/timer_result.h
 
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
 

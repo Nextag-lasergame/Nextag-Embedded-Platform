@@ -7,6 +7,7 @@
 
 #include "timer_clock.h"
 #include "timer_mode.h"
+#include "timer_result.h"
 
 #include <inttypes.h>
 
@@ -23,7 +24,7 @@ public:
     void setCompareA(uint16_t value);
     void setCompareB(uint16_t value);
 
-    void setClockSource(TimerClock clock);
+    [[nodiscard]] auto setClockSource(TimerClock clock) -> TimerResult;
     void stop();
 
     static Timer8Bit timer0;
