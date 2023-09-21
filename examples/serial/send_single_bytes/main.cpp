@@ -9,7 +9,7 @@ int main()
 {
     using namespace NextagEmbeddedPlatform;
 
-    auto &serial = Drivers::Serial::serial;
+    auto & serial = Drivers::Serial::serial;
 
     uint8_t data[] = {'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!'};
 
