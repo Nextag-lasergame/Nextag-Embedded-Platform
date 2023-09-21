@@ -44,7 +44,7 @@ void Serial::begin(uint32_t baudrate)
     sei();
 
     serialCallbacks.txInterruptFunction = []() {
-        auto &serial = Serial::serial;
+        auto & serial = Serial::serial;
 
         if (serial.m_txBuffer.count() > 0)
         {
@@ -53,7 +53,7 @@ void Serial::begin(uint32_t baudrate)
     };
 
     serialCallbacks.rxInterruptFunction = [](uint8_t byte) {
-        auto &serial = Serial::serial;
+        auto & serial = Serial::serial;
 
         serial.m_rxBuffer.push_back(byte);
     };

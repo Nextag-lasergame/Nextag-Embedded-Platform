@@ -20,8 +20,8 @@ public:
     ~Serial() = default;
     Serial(Serial &) = delete;
     Serial(Serial &&) = delete;
-    Serial & operator=(Serial&) = delete;
-    Serial & operator=(Serial&&) = delete;
+    Serial & operator=(Serial &) = delete;
+    Serial & operator=(Serial &&) = delete;
 
     void begin(uint32_t baudrate);
 
