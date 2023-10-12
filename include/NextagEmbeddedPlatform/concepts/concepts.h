@@ -11,15 +11,14 @@ namespace NextagEmbeddedPlatform::Concepts
 {
 
 template <typename T>
-concept is_default_constructable = requires(T t)
-{
+concept is_default_constructable = requires(T t) {
     T{};
 };
 
-template<typename T>
+template <typename T>
 concept returns_void = is_same<void, T>::value;
 
-template<typename T, typename ReturnType>
+template <typename T, typename ReturnType>
 concept returns_type = is_same<ReturnType, T>::value;
 
 } // namespace NextagEmbeddedPlatform::Concepts

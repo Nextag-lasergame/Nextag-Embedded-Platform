@@ -1,6 +1,6 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
  */
 
 #pragma once
@@ -11,6 +11,6 @@
 namespace NextagEmbeddedPlatform::Peripherals
 {
 
-Concepts::Drivers::timer auto &timer0 = Drivers::Timer8Bit::timer0;
+Concepts::Drivers::timer auto & timer0 = Drivers::Timer8Bit::timer0;
 
 } // namespace NextagEmbeddedPlatform::Peripherals
