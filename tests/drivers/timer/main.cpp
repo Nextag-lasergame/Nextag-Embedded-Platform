@@ -1,14 +1,14 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #include <test_utils/serial.h>
 
 #include <NextagEmbeddedPlatform/peripherals.h>
 
-#include <avr/sleep.h>
 #include <avr/io.h>
+#include <avr/sleep.h>
 #include <unity.h>
 
 using namespace NextagEmbeddedPlatform;

@@ -1,20 +1,20 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #pragma once
 
 namespace NextagEmbeddedPlatform::Concepts
 {
 
-template<class T, class U>
+template <class T, class U>
 struct is_same
 {
     static constexpr bool value = false;
 };
 
-template<class T>
+template <class T>
 struct is_same<T, T>
 {
     static constexpr bool value = true;

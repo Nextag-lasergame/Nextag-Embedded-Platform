@@ -1,7 +1,7 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #pragma once
 
@@ -14,7 +14,7 @@
 namespace NextagEmbeddedPlatform::Drivers
 {
 
-template<typename T>
+template <typename T>
 struct TimerRegister;
 
 class Timer8Bit

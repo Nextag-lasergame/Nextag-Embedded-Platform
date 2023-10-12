@@ -1,6 +1,6 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
  */
 
 #include "NextagEmbeddedPlatform/drivers/timer8bit.h"
@@ -19,24 +19,24 @@ public:
     {
         switch (clock)
         {
-            case TimerClock::SYSTEM_PRESCALER_1:
-                return _BV(CS00);
-            case TimerClock::SYSTEM_PRESCALER_8:
-                return _BV(CS01);
-            case TimerClock::SYSTEM_PRESCALER_64:
-                return _BV(CS01) | _BV(CS00);
-            case TimerClock::SYSTEM_PRESCALER_256:
-                return _BV(CS02);
-            case TimerClock::SYSTEM_PRESCALER_1024:
-                return _BV(CS02) | _BV(CS00);
-            case TimerClock::EXTERNAL_CLOCK_FALLING_EDGE:
-                return _BV(CS02) | _BV(CS01);
-            case TimerClock::EXTERNAL_CLOCK_RISING_EDGE:
-                return _BV(CS02) | _BV(CS01) | _BV(CS00);
-            case TimerClock::SYSTEM_PRESCALER_32:
-            case TimerClock::SYSTEM_PRESCALER_128:
-                return 0;
-            }
+        case TimerClock::SYSTEM_PRESCALER_1:
+            return _BV(CS00);
+        case TimerClock::SYSTEM_PRESCALER_8:
+            return _BV(CS01);
+        case TimerClock::SYSTEM_PRESCALER_64:
+            return _BV(CS01) | _BV(CS00);
+        case TimerClock::SYSTEM_PRESCALER_256:
+            return _BV(CS02);
+        case TimerClock::SYSTEM_PRESCALER_1024:
+            return _BV(CS02) | _BV(CS00);
+        case TimerClock::EXTERNAL_CLOCK_FALLING_EDGE:
+            return _BV(CS02) | _BV(CS01);
+        case TimerClock::EXTERNAL_CLOCK_RISING_EDGE:
+            return _BV(CS02) | _BV(CS01) | _BV(CS00);
+        case TimerClock::SYSTEM_PRESCALER_32:
+        case TimerClock::SYSTEM_PRESCALER_128:
+            return 0;
+        }
         return 0;
     }
 
@@ -44,25 +44,26 @@ public:
     {
         switch (clock)
         {
-            case TimerClock::SYSTEM_PRESCALER_1:
-            case TimerClock::SYSTEM_PRESCALER_8:
-            case TimerClock::SYSTEM_PRESCALER_64:
-            case TimerClock::SYSTEM_PRESCALER_256:
-            case TimerClock::SYSTEM_PRESCALER_1024:
-            case TimerClock::EXTERNAL_CLOCK_FALLING_EDGE:
-            case TimerClock::EXTERNAL_CLOCK_RISING_EDGE:
-                return true;
+        case TimerClock::SYSTEM_PRESCALER_1:
+        case TimerClock::SYSTEM_PRESCALER_8:
+        case TimerClock::SYSTEM_PRESCALER_64:
+        case TimerClock::SYSTEM_PRESCALER_256:
+        case TimerClock::SYSTEM_PRESCALER_1024:
+        case TimerClock::EXTERNAL_CLOCK_FALLING_EDGE:
+        case TimerClock::EXTERNAL_CLOCK_RISING_EDGE:
+            return true;
 
-            case TimerClock::SYSTEM_PRESCALER_32:
-            case TimerClock::SYSTEM_PRESCALER_128:
-                return false;
+        case TimerClock::SYSTEM_PRESCALER_32:
+        case TimerClock::SYSTEM_PRESCALER_128:
+            return false;
         }
 
         return false;
     }
 };
 
-Timer8Bit::Timer8Bit(TimerRegister<uint8_t> * registers) : m_registers(registers)
+Timer8Bit::Timer8Bit(TimerRegister<uint8_t> * registers) :
+    m_registers(registers)
 {
 }
 
@@ -85,7 +86,7 @@ auto Timer8Bit::setClockSource(TimerClock clock) -> TimerResult
 {
     static constexpr TimerClockConverter converter;
 
-    if(!converter.clockIsSupportedByTimer(clock))
+    if (!converter.clockIsSupportedByTimer(clock))
         return TimerResult::INVALID_CLOCK_SOURCE;
 
     auto bitMask = converter.convertToMask(clock);
@@ -99,6 +100,6 @@ void Timer8Bit::stop()
     m_registers->controlB = m_registers->controlB & ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
 }
 
-Timer8Bit Timer8Bit::timer0{reinterpret_cast<TimerRegister<uint8_t>*>(0x44)};
+Timer8Bit Timer8Bit::timer0{reinterpret_cast<TimerRegister<uint8_t> *>(0x44)};
 
 } // namespace NextagEmbeddedPlatform::Drivers
