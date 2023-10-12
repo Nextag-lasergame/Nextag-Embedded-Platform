@@ -15,10 +15,10 @@ jobs:
           submodules: false
 
       - name: Verify formatting
-        run:
-          clang-format --version &&  
-          chmod +rwx check_formatting.sh && 
-          ./check_formatting.sh
+        uses: jidicula/clang-format-action@v4.11.0
+        with:
+          clang-format-version: '16'
+          check-path: '.'
 
   Native-build-and-test:
     runs-on: ubuntu-latest
