@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
