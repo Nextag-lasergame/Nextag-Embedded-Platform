@@ -5,7 +5,7 @@ files=$(echo "$files" | tr " " "\n")
 
 for file in $files
 do
-  clang-format --dry-run --Werror "$file"
+  clang-format-16 --dry-run --Werror "$file"
   if [ $? -ne 0 ]; then
     files_formatted=0
   fi

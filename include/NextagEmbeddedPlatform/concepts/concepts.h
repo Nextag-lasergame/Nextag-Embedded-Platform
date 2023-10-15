@@ -9,8 +9,7 @@ namespace NextagEmbeddedPlatform::Concepts
 {
 
 template <typename T>
-concept is_default_constructable = requires(T t)
-{
+concept is_default_constructable = requires(T t) {
     T{};
 };
 

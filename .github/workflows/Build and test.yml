@@ -16,7 +16,6 @@ jobs:
 
       - name: Verify formatting
         run:
-          clang-format --version &&  
           chmod +rwx check_formatting.sh && 
           ./check_formatting.sh
 
