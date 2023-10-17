@@ -32,34 +32,34 @@ jobs:
       with:
         submodules: true
 
-    - name: Install dependencies
-      run: 
-        sudo apt-get update &&
-        sudo apt-get install -y cmake libfl2 simavr
+    # - name: Install dependencies
+    #   run: 
+    #     sudo apt-get update &&
+    #     sudo apt-get install -y cmake libfl2 simavr
       
-    - name: Cache avr-toolchain
-      id: cache-avr-toolchain
-      uses: actions/cache@v1
-      with:
-        path: .\avr-toolchain
-        key: ${{ runner.os }}-avr-toolchain
-        restore-keys: ${{ runner.os }}-avr-toolchain
+    # - name: Cache avr-toolchain
+    #   id: cache-avr-toolchain
+    #   uses: actions/cache@v1
+    #   with:
+    #     path: .\avr-toolchain
+    #     key: ${{ runner.os }}-avr-toolchain
+    #     restore-keys: ${{ runner.os }}-avr-toolchain
     
-    - name: Setup avr-toolchain
-      if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
-      run:
-        wget https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-linux.tar.bz2 &&
-        mkdir $PWD/avr-toolchain &&
-        tar -xf avr-gcc-11.1.0-x64-linux.tar.bz2 -C $PWD/avr-toolchain
+    # - name: Setup avr-toolchain
+    #   if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
+    #   run:
+    #     wget https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-linux.tar.bz2 &&
+    #     mkdir $PWD/avr-toolchain &&
+    #     tar -xf avr-gcc-11.1.0-x64-linux.tar.bz2 -C $PWD/avr-toolchain
 
     - name: Configure CMake
       run: 
-        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        # export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -S . -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
 
     - name: Build
       run:
-        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        # export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Test
