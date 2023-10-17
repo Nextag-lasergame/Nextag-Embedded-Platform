@@ -49,18 +49,18 @@ jobs:
     - name: Setup avr-toolchain
       if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
       run:
-        wget https://github.com/ZakKemble/avr-gcc-build/releases/download/v11.1.0-1/avr-gcc-11.1.0-x64-linux.tar.bz2 &&
+        wget https://github.com/Nextag-lasergame/avr-gcc-toolchains/releases/download/v13.2/avr-gcc-13.2.0-x64-linux.tar.gz &&
         mkdir $PWD/avr-toolchain &&
-        tar -xf avr-gcc-11.1.0-x64-linux.tar.bz2 -C $PWD/avr-toolchain
+        tar -xf avr-gcc-13.2.0-x64-linux.tar.gz -C $PWD/avr-toolchain
 
     - name: Configure CMake
       run: 
-        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -S . -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
 
     - name: Build
       run:
-        export PATH="$PWD/avr-toolchain/avr-gcc-11.1.0-x64-linux/bin:$PATH" &&
+        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Test
