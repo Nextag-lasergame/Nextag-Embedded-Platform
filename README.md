@@ -1,7 +1,7 @@
 # Nextag-Embedded-Platform
 
 ## How to build
-Install gcc-avr 11.1+ to path.
+Install gcc-avr 13.2 to path.
 Install simavr to path
 
 ## Toolchain
