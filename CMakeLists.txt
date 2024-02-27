@@ -9,7 +9,7 @@ include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 add_compile_options(-Werror -Wall -Wextra -Wno-missing-field-initializers -Wno-error=cpp)
 
@@ -61,6 +61,10 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/timer_clock.h
         include/NextagEmbeddedPlatform/drivers/timer_mode.h
         include/NextagEmbeddedPlatform/drivers/timer_result.h
+
+        include/NextagEmbeddedPlatform/interrupt/interrupt_handlers.h
+        include/NextagEmbeddedPlatform/interrupt/interrupt_registry.h
+        include/NextagEmbeddedPlatform/interrupt/interrupts.h
 
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h
 
