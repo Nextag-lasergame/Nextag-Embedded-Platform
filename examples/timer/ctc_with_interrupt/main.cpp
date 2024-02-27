@@ -4,12 +4,18 @@
 */
 
 #include "NextagEmbeddedPlatform/peripherals.h"
+#include "NextagEmbeddedPlatform/drivers/digital_io.h"
+#include "NextagEmbeddedPlatform/interrupt/interrupt_registry.h"
+
+NextagEmbeddedPlatform::Drivers::DigitalIO led{NextagEmbeddedPlatform::Drivers::Pins::B5};
 
 int main()
 {
-   using namespace NextagEmbeddedPlatform;
+    using namespace NextagEmbeddedPlatform;
 
-    [[maybe_unused]] auto & timer = Peripherals::timer0;
+    led.setPinMode(Drivers::Mode::OUTPUT);
+
+    auto & timer = Peripherals::timer0;
 
     timer.setMode(NextagEmbeddedPlatform::Drivers::TimerMode::CTC);
     timer.setCompareA(100);
@@ -18,10 +24,11 @@ int main()
     {
         // Something went wrong, handle here
     }
+
+    Interrupt::InterruptRegistry::enableInterrupt(Interrupt::Interrupt::TIMER0_COMPARE_A);
 }
 
-// This function is registered as an interrupt handler in interrupts.cpp
 void onTimer0CompareMatchA()
 {
-
+    led.setState(NextagEmbeddedPlatform::Drivers::State::HIGH);
 }
