@@ -34,6 +34,8 @@ class Array
     static_assert(N > 0, "Size Size has to be bigger than 0");
 
 public:
+    T m_data[N];
+
     /**
      * Definition of modifiable iterator
      */
@@ -44,13 +46,6 @@ public:
      */
     using const_array_iterator = CollectionIterator<T, const Array<T, N>>;
 
-    Array() = default;
-    ~Array() = default;
-    Array(const Array &) = default;
-    Array(Array &&) = default;
-    Array & operator=(const Array &) = default;
-    Array & operator=(Array &&) = default;
-
     /**
      * Accesses an element in the array. The index is not checked to be within bounds. This operator can
      * be used to either read or write to an element.
@@ -58,7 +53,7 @@ public:
      * @param index Index to access
      * @return Data in element.
      */
-    [[nodiscard]] T & operator[](size_t index)
+    [[nodiscard]] constexpr T & operator[](size_t index)
     {
         return at(index);
     }
@@ -70,7 +65,7 @@ public:
      * @param index Index to access
      * @return Data in element.
      */
-    [[nodiscard]] const T & operator[](size_t index) const
+    [[nodiscard]] constexpr const T & operator[](size_t index) const
     {
         return at(index);
     }
@@ -80,7 +75,7 @@ public:
      *
      * @return A pointer pointing to the first element
      */
-    [[nodiscard]] T * data()
+    [[nodiscard]] constexpr T * data()
     {
         return m_data;
     }
@@ -90,7 +85,7 @@ public:
      *
      * @return A pointer pointing to the first element
      */
-    [[nodiscard]] const T * data() const
+    [[nodiscard]] constexpr const T * data() const
     {
         return m_data;
     }
@@ -102,7 +97,7 @@ public:
      * @param index Index to access
      * @return Data in element.
      */
-    [[nodiscard]] T & at(size_t index)
+    [[nodiscard]] constexpr T & at(size_t index)
     {
         return m_data[index];
     }
@@ -114,7 +109,7 @@ public:
      * @param index Index to access
      * @return Data in element.
      */
-    [[nodiscard]] const T & at(size_t index) const
+    [[nodiscard]] constexpr const T & at(size_t index) const
     {
         return m_data[index];
     }
@@ -124,7 +119,7 @@ public:
      *
      * @return The array size
      */
-    [[nodiscard]] inline size_t size() const noexcept
+    [[nodiscard]] constexpr inline size_t size() const noexcept
     {
         return N;
     }
@@ -134,7 +129,7 @@ public:
      *
      * @return The iterator
      */
-    array_iterator begin()
+    constexpr array_iterator begin()
     {
         return array_iterator(*this, 0);
     }
@@ -144,7 +139,7 @@ public:
      *
      * @return The iterator
      */
-    array_iterator end()
+    constexpr array_iterator end()
     {
         return array_iterator(*this, N);
     }
@@ -154,7 +149,7 @@ public:
      *
      * @return The iterator
      */
-    const_array_iterator begin() const
+    constexpr const_array_iterator begin() const
     {
         return const_array_iterator(*this, 0);
     }
@@ -164,13 +159,10 @@ public:
      *
      * @return The iterator
      */
-    const_array_iterator end() const
+    constexpr const_array_iterator end() const
     {
         return const_array_iterator(*this, N);
     }
-
-private:
-    T m_data[N];
 };
 
 } // namespace NextagEmbeddedPlatform::StorageContainers
