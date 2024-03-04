@@ -1,11 +1,11 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
-#include "NextagEmbeddedPlatform/peripherals.h"
 #include "NextagEmbeddedPlatform/drivers/digital_io.h"
 #include "NextagEmbeddedPlatform/interrupt/interrupt_registry.h"
+#include "NextagEmbeddedPlatform/peripherals.h"
 
 NextagEmbeddedPlatform::Drivers::DigitalIO led{NextagEmbeddedPlatform::Drivers::Pins::B5};
 
@@ -20,7 +20,7 @@ int main()
     timer.setMode(NextagEmbeddedPlatform::Drivers::TimerMode::CTC);
     timer.setCompareA(100);
 
-    if(timer.setClockSource(Drivers::TimerClock::SYSTEM_PRESCALER_1) != Drivers::TimerResult::OK)
+    if (timer.setClockSource(Drivers::TimerClock::SYSTEM_PRESCALER_1) != Drivers::TimerResult::OK)
     {
         // Something went wrong, handle here
     }

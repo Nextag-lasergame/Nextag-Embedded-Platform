@@ -28,7 +28,7 @@ void InterruptRegistry::enableInterrupt(Interrupt interrupt)
     sei();
 }
 
-}
+} // namespace NextagEmbeddedPlatform::Interrupt
 
 void onTimer0CompareMatchA() __attribute__((weak));
 void onTimer0CompareMatchB() __attribute__((weak));
