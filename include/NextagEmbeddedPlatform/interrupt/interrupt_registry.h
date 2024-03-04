@@ -1,7 +1,7 @@
 /*
-* Copyright © 2022 Tim Herreijgers
-* Licensed using the MIT license
-*/
+ * Copyright © 2022 Tim Herreijgers
+ * Licensed using the MIT license
+ */
 
 #pragma once
 
@@ -9,11 +9,11 @@
 
 namespace NextagEmbeddedPlatform::Interrupt
 {
-    class InterruptRegistry
-    {
-    public:
-        InterruptRegistry() = delete;
+class InterruptRegistry
+{
+public:
+    InterruptRegistry() = delete;
 
-        static void enableInterrupt(Interrupt interrupt);
-    };
-}
+    static void enableInterrupt(Interrupt interrupt);
+};
+} // namespace NextagEmbeddedPlatform::Interrupt
