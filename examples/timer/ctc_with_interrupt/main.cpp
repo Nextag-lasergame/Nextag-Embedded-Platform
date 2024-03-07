@@ -14,6 +14,7 @@ int main()
     using namespace NextagEmbeddedPlatform;
 
     led.setPinMode(Drivers::Mode::OUTPUT);
+    led.setState(NextagEmbeddedPlatform::Drivers::State::HIGH);
 
     auto & timer = Peripherals::timer0;
 
@@ -26,9 +27,11 @@ int main()
     }
 
     Interrupt::InterruptRegistry::enableInterrupt(Interrupt::Interrupt::TIMER0_COMPARE_A);
+
+    while(true);
 }
 
 void onTimer0CompareMatchA()
 {
-    led.setState(NextagEmbeddedPlatform::Drivers::State::HIGH);
+    // Do something on timer0 compare match A
 }
