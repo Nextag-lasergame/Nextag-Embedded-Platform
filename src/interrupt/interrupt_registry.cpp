@@ -32,13 +32,35 @@ void InterruptRegistry::enableInterrupt(Interrupt interrupt)
 
 void onTimer0CompareMatchA() __attribute__((weak));
 void onTimer0CompareMatchB() __attribute__((weak));
+void onTimer1CompareMatchA() __attribute__((weak));
+
 
 void onTimer0CompareMatchA()
 {
+    // We need this load intermediate to prevent compiler "optimization" where vectors call each other while pushing and popping every register.
+    // In the end this results in a smaller binary
+    __asm("push r31");
+    __asm("ldi r31, 0xE");
+    __asm("jmp __bad_interrupt");
+    __asm("pop r31");
 }
 
 void onTimer0CompareMatchB()
 {
+    // We need this load intermediate to prevent vectors from calling eachother
+    __asm("push r31");
+    __asm("ldi r31, 0xF");
+    __asm("jmp __bad_interrupt");
+    __asm("pop r31");
+}
+
+void onTimer1CompareMatchA()
+{
+    // We need this load intermediate to prevent vectors from calling eachother
+    __asm("push r31");
+    __asm("ldi r31, 0xB");
+    __asm("jmp __bad_interrupt");
+    __asm("pop r31");
 }
 
 ISR(TIMER0_COMPA_vect)
@@ -49,4 +71,9 @@ ISR(TIMER0_COMPA_vect)
 ISR(TIMER0_COMPB_vect)
 {
     onTimer0CompareMatchB();
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+    onTimer1CompareMatchA();
 }
