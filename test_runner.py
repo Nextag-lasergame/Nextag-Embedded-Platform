@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import platform
 
 argc = len(sys.argv)
 if argc != 4:
@@ -10,9 +11,16 @@ file_to_test = str(sys.argv[1])
 mcu = str(sys.argv[2])
 freq = str(sys.argv[3])
 
-process = subprocess.Popen(["simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE)
+if platform.system is "Windows":
+    # On windows simavr is easiest to install under wsl, so we need to add that in from of the test command
+    process = subprocess.Popen(["wsl", "simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+else:
+    process = subprocess.Popen(["simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+
 stdout_bytes, stderr_bytes = process.communicate()
 
 stdout_string = stdout_bytes.decode("utf-8")
