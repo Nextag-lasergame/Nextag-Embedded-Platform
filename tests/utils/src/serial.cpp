@@ -41,8 +41,7 @@ void usart_init(uint16_t ubrr)
 void usart_putchar(char data)
 {
     // Wait for empty transmit buffer
-    while (!(UCSR0A & (_BV(UDRE0))))
-        ;
+    while (!(UCSR0A & (_BV(UDRE0))));
     // Start transmission
     UDR0 = data;
 }
