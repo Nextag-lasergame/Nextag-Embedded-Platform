@@ -28,7 +28,7 @@ int main()
 
     Interrupt::InterruptRegistry::enableInterrupt(Interrupt::Interrupt::TIMER0_COMPARE_A);
 
-    while(true);
+    while (true);
 }
 
 void onTimer0CompareMatchA()
