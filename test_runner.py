@@ -11,7 +11,8 @@ file_to_test = str(sys.argv[1])
 mcu = str(sys.argv[2])
 freq = str(sys.argv[3])
 
-if platform.system is "Windows":
+if platform.system() is "Windows":
+    file_to_test = file_to_test.replace('C:/', '/mnt/c/')
     # On windows simavr is easiest to install under wsl, so we need to add that in from of the test command
     process = subprocess.Popen(["wsl", "simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
                                stdout=subprocess.PIPE,
