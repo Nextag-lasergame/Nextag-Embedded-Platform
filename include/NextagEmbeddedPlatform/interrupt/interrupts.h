@@ -8,7 +8,7 @@
 namespace NextagEmbeddedPlatform::Interrupt
 {
 
-enum class Interrupt
+enum class InterruptIdentifier
 {
     TIMER0_COMPARE_A,
     TIMER0_COMPARE_B
