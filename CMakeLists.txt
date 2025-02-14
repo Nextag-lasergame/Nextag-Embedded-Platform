@@ -46,9 +46,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/serial.cpp
         src/drivers/serial_registers.h
         src/drivers/timer8bit.cpp
-        src/drivers/timer_registers.h
-
-        src/interrupt/interrupt_registry.cpp)
+        src/drivers/timer_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/peripherals.h
@@ -64,7 +62,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/timer_mode.h
         include/NextagEmbeddedPlatform/drivers/timer_result.h
 
-        include/NextagEmbeddedPlatform/interrupt/interrupt_registry.h
+        include/NextagEmbeddedPlatform/interrupt/interrupt_manager.h
         include/NextagEmbeddedPlatform/interrupt/interrupts.h
 
         include/NextagEmbeddedPlatform/pin_definitions/pin_definitions.h

@@ -3,11 +3,13 @@
  * Licensed using the MIT license
  */
 
-#include "NextagEmbeddedPlatform/drivers/digital_io.h"
-#include "NextagEmbeddedPlatform/interrupt/interrupt_registry.h"
 #include "NextagEmbeddedPlatform/peripherals.h"
+#include "NextagEmbeddedPlatform/drivers/digital_io.h"
+#include "NextagEmbeddedPlatform/interrupt/interrupt_manager.h"
 
-NextagEmbeddedPlatform::Drivers::DigitalIO led{NextagEmbeddedPlatform::Drivers::Pins::B5};
+using namespace NextagEmbeddedPlatform;
+
+Drivers::DigitalIO led{Drivers::Pins::B5};
 
 int main()
 {
@@ -26,12 +28,21 @@ int main()
         // Something went wrong, handle here
     }
 
-    Interrupt::InterruptRegistry::enableInterrupt(Interrupt::Interrupt::TIMER0_COMPARE_A);
+    TIMSK0 = TIMSK0 | _BV(OCIE0A);
 
-    while (true);
+    while(true);
 }
 
-void onTimer0CompareMatchA()
+struct Timer0CompareAHandler
 {
-    // Do something on timer0 compare match A
-}
+    static void operator()()
+    {
+        led.setState(Drivers::State::HIGH);
+    }
+};
+
+
+template <> inline auto Interrupt::interrupts<> =
+    InterruptManager<InterruptDescriptor<InterruptIdentifier::TIMER0_COMPARE_A, Timer0CompareAHandler>>{};
+
+INTERRUPT_HANDLERS;
