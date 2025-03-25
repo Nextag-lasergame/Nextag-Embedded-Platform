@@ -40,7 +40,7 @@ jobs:
       
     - name: Cache avr-toolchain
       id: cache-avr-toolchain
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: .\avr-toolchain
         key: ${{ runner.os }}-avr-toolchain
