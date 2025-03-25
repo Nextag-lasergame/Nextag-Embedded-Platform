@@ -93,6 +93,7 @@ struct InterruptWrapper
 
 inline constexpr uint8_t TIMER0_COMPARE_A = TIMER0_COMPA_vect_num;
 inline constexpr uint8_t TIMER0_COMPARE_B = TIMER0_COMPB_vect_num;
+inline constexpr uint8_t TIMER0_OVERFLOW = TIMER0_OVF_vect_num;
 
 } // namespace NextagEmbeddedPlatform::Interrupt
 
@@ -104,4 +105,5 @@ ISR(InterruptVect)                                                              
 
 #define INTERRUPT_HANDLERS                                                                                                      \
 INTERRUPT_HANDLER_IMPLEMENTATION(TIMER0_COMPA_vect, NextagEmbeddedPlatform::Interrupt::InterruptIdentifier::TIMER0_COMPARE_A);  \
-INTERRUPT_HANDLER_IMPLEMENTATION(TIMER0_COMPB_vect, NextagEmbeddedPlatform::Interrupt::InterruptIdentifier::TIMER0_COMPARE_B);
+INTERRUPT_HANDLER_IMPLEMENTATION(TIMER0_COMPB_vect, NextagEmbeddedPlatform::Interrupt::InterruptIdentifier::TIMER0_COMPARE_B);  \
+INTERRUPT_HANDLER_IMPLEMENTATION(TIMER0_OVF_vect, NextagEmbeddedPlatform::Interrupt::InterruptIdentifier::TIMER0_OVERFLOW);
