@@ -17,7 +17,7 @@ jobs:
       - name: Verify formatting
         uses: jidicula/clang-format-action@v4.11.0
         with:
-          clang-format-version: '18'
+          clang-format-version: '20'
           check-path: '.'
 
   Native-build-and-test:
