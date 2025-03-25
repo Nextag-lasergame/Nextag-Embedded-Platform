@@ -3,9 +3,9 @@
  * Licensed using the MIT license
  */
 
-#include "NextagEmbeddedPlatform/peripherals.h"
 #include "NextagEmbeddedPlatform/drivers/digital_io.h"
 #include "NextagEmbeddedPlatform/interrupt/interrupt_manager.h"
+#include "NextagEmbeddedPlatform/peripherals.h"
 
 using namespace NextagEmbeddedPlatform;
 
@@ -30,7 +30,7 @@ int main()
 
     TIMSK0 = TIMSK0 | _BV(OCIE0A);
 
-    while(true);
+    while (true);
 }
 
 struct Timer0CompareAHandler
@@ -41,8 +41,8 @@ struct Timer0CompareAHandler
     }
 };
 
-
-template <> inline auto Interrupt::interrupts<> =
+template <>
+inline auto Interrupt::interrupts<> =
     InterruptManager<InterruptDescriptor<InterruptIdentifier::TIMER0_COMPARE_A, Timer0CompareAHandler>>{};
 
 INTERRUPT_HANDLERS;

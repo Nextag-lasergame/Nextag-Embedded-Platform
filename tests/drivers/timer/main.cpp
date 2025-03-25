@@ -113,7 +113,7 @@ void Timer0_Stop_ClearsPrescalerBitsInRegister()
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
+    TestUtils::initTestSerial();
 
     UNITY_BEGIN();
     RUN_TEST(Timer0_SetModeToCTC_SetsCorrectRegisters);
