@@ -4,3 +4,4 @@ build
 avr-gcc
 docs
 .cache
+**/.DS_Store

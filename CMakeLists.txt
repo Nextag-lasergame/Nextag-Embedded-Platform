@@ -45,10 +45,11 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io_registers.h
         src/drivers/serial.cpp
         src/drivers/serial_registers.h
-        src/drivers/timer8bit.cpp
         src/drivers/timer_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
+        include/NextagEmbeddedPlatform/chips/chip_descriptor.h
+
         include/NextagEmbeddedPlatform/peripherals.h
 
         include/NextagEmbeddedPlatform/concepts/drivers/timer.h
@@ -57,10 +58,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
 
         include/NextagEmbeddedPlatform/drivers/digital_io.h
         include/NextagEmbeddedPlatform/drivers/serial.h
-        include/NextagEmbeddedPlatform/drivers/timer8bit.h
-        include/NextagEmbeddedPlatform/drivers/timer_clock.h
-        include/NextagEmbeddedPlatform/drivers/timer_mode.h
-        include/NextagEmbeddedPlatform/drivers/timer_result.h
+        include/NextagEmbeddedPlatform/drivers/timer.h
 
         include/NextagEmbeddedPlatform/interrupt/interrupt_manager.h
         include/NextagEmbeddedPlatform/interrupt/interrupts.h
