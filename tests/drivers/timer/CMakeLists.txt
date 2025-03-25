@@ -1,4 +1,8 @@
-add_avr_executable(Timer main.cpp)
+add_avr_executable(Timer
+        main.cpp
+        timer0_tests.cpp
+        timer0_tests.h)
+
 avr_target_link_libraries(Timer
         unity::framework
         TestUtils-${AVR_MCU}
