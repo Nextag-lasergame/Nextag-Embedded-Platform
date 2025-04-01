@@ -57,6 +57,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
 
         include/NextagEmbeddedPlatform/drivers/digital_io.h
         include/NextagEmbeddedPlatform/drivers/serial.h
+        include/NextagEmbeddedPlatform/drivers/timer.h
         include/NextagEmbeddedPlatform/drivers/timer8bit.h
         include/NextagEmbeddedPlatform/drivers/timer_clock.h
         include/NextagEmbeddedPlatform/drivers/timer_mode.h

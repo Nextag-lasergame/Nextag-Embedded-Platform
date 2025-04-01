@@ -6,11 +6,11 @@
 #pragma once
 
 #include "NextagEmbeddedPlatform/concepts/drivers/timer.h"
-#include "NextagEmbeddedPlatform/drivers/timer8bit.h"
+#include "NextagEmbeddedPlatform/drivers/timer.h"
 
 namespace NextagEmbeddedPlatform::Peripherals
 {
 
-Concepts::Drivers::timer auto & timer0 = Drivers::Timer8Bit::timer0;
+inline Concepts::Drivers::timerNew auto timer0 = Drivers::Timer<uint8_t>{};
 
 } // namespace NextagEmbeddedPlatform::Peripherals
