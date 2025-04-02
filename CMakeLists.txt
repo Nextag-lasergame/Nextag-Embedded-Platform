@@ -51,6 +51,8 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/peripherals.h
 
+        include/NextagEmbeddedPlatform/chips/atmega328p/timers.h
+
         include/NextagEmbeddedPlatform/concepts/drivers/timer.h
         include/NextagEmbeddedPlatform/concepts/concepts.h
         include/NextagEmbeddedPlatform/concepts/typetraits.h

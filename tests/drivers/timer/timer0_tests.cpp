@@ -32,7 +32,7 @@ void runTests()
     RUN_TEST(SetCompareA_SetsCorrectRegisters);
     RUN_TEST(SetCompareB_SetsCorrectRegisters);
     RUN_TEST(SetTimerClock_SetsCorrectRegisterValue);
-    // RUN_TEST(Stop_ClearsPrescalerBitsInRegister);
+    RUN_TEST(Stop_ClearsPrescalerBitsInRegister);
 }
 
 void SetModeToCTC_SetsCorrectRegisters()
@@ -65,25 +65,25 @@ void SetTimerClock_SetsCorrectRegisterValue()
     auto & timer0 = Peripherals::timer0;
 
     timer0.setClockSource<TimerClock::SYSTEM_PRESCALER_1>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS00), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS00), TCCR0B, "Prescaler 1 was not set correctly");
 
     timer0.setClockSource<TimerClock::SYSTEM_PRESCALER_8>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS01), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS01), TCCR0B, "Prescaler 8 was not set correctly");
 
     timer0.setClockSource<TimerClock::SYSTEM_PRESCALER_64>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS01) | _BV(CS00), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS01) | _BV(CS00), TCCR0B, "Prescaler 64 was not set correctly");
 
     timer0.setClockSource<TimerClock::SYSTEM_PRESCALER_256>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS02), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS02), TCCR0B, "Prescaler 256 was not set correctly");
 
     timer0.setClockSource<TimerClock::SYSTEM_PRESCALER_1024>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS02) | _BV(CS00), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS02) | _BV(CS00), TCCR0B, "Prescaler 1024 was not set correctly");
 
     timer0.setClockSource<TimerClock::EXTERNAL_CLOCK_FALLING_EDGE>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS02) | _BV(CS01), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS02) | _BV(CS01), TCCR0B, "Prescaler falling edge was not set correctly");
 
     timer0.setClockSource<TimerClock::EXTERNAL_CLOCK_RISING_EDGE>();
-    TEST_ASSERT_BITS(0xFF, _BV(CS02) | _BV(CS01) | _BV(CS00), TCCR0B);
+    TEST_ASSERT_BITS_MESSAGE(0xFF, _BV(CS02) | _BV(CS01) | _BV(CS00), TCCR0B, "Prescaler rising edge was not set correctly");
 }
 
 void Stop_ClearsPrescalerBitsInRegister()
