@@ -39,4 +39,11 @@ concept timerSpecialized = timer_datatype<DataType> && requires(T t) {
 template <typename T>
 concept timerNew = timerSpecialized<T, uint8_t> || timerSpecialized<T, uint16_t>;
 
+template <typename T>
+concept timerChipSpecialization = requires(T t)
+{
+    { T::template getModeMaskControlA<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
+    { T::template getClockSourceMask<NextagEmbeddedPlatform::Drivers::TimerClock::SYSTEM_PRESCALER_1>() } -> returns_type<uint8_t>;
+};
+
 } // namespace NextagEmbeddedPlatform::Concepts::Drivers
