@@ -20,31 +20,31 @@ public:
     template<TimerMode timerMode>
     void setMode()
     {
-        TCCR0A |= TimerSpecialization::template getModeMaskControlA<timerMode>();
+        TimerSpecialization::timerControlA() |= TimerSpecialization::template getModeMaskControlA<timerMode>();
     }
 
     template<TimerDataType value>
     void setCompareA()
     {
-        OCR0A = value;
+        TimerSpecialization::outputCompareA() = value;
     }
 
     template<TimerDataType value>
     void setCompareB()
     {
-        OCR0B = value;
+        TimerSpecialization::outputCompareB() = value;
     }
 
     template<TimerClock clockSource>
     void setClockSource()
     {
-        TCCR0B &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
-        TCCR0B |= TimerSpecialization::template getClockSourceMask<clockSource>();
+        TimerSpecialization::timerControlB() &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
+        TimerSpecialization::timerControlB() |= TimerSpecialization::template getClockSourceMask<clockSource>();
     }
 
     void stop()
     {
-        TCCR0B &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
+        TimerSpecialization::timerControlB() &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
     }
 };
 

@@ -8,6 +8,8 @@
 #include "NextagEmbeddedPlatform/drivers/timer_clock.h"
 #include "NextagEmbeddedPlatform/drivers/timer_mode.h"
 
+#include <avr/io.h>
+
 namespace NextagEmbeddedPlatform::Chips::Atmega328p
 {
 
@@ -47,6 +49,26 @@ struct Timer0Specialization
             return 0;
         }
         return 0;
+    }
+
+    static auto timerControlA() -> volatile uint8_t&
+    {
+        return TCCR0A;
+    }
+
+    static auto timerControlB() -> volatile uint8_t&
+    {
+        return TCCR0B;
+    }
+
+    static auto outputCompareA() -> volatile uint8_t&
+    {
+        return OCR0A;
+    }
+
+    static auto outputCompareB() -> volatile uint8_t&
+    {
+        return OCR0B;
     }
 };
 
