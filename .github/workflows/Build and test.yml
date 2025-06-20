@@ -33,36 +33,25 @@ jobs:
       with:
         submodules: true
 
-    - name: Install dependencies
-      run: 
-        sudo apt-get update &&
-        sudo apt-get install -y cmake libfl2 simavr
-      
-    - name: Cache avr-toolchain
-      id: cache-avr-toolchain
-      uses: actions/cache@v4
-      with:
-        path: .\avr-toolchain
-        key: ${{ runner.os }}-avr-toolchain
-        restore-keys: ${{ runner.os }}-avr-toolchain
-    
-    - name: Setup avr-toolchain
-      if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
+    - name: Build docker container
       run:
-        wget https://github.com/Nextag-lasergame/avr-gcc-toolchains/releases/download/v13.2/avr-gcc-13.2.0-x64-linux.tar.gz &&
-        mkdir $PWD/avr-toolchain &&
-        tar -xf avr-gcc-13.2.0-x64-linux.tar.gz -C $PWD/avr-toolchain
+        docker build -t avr-gcc-toolchain:latest -f Dockerfile . --platform=linux/amd64
 
     - name: Configure CMake
-      run: 
-        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
-        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -S . -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
+      run: >
+        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
+        cmake -G Ninja
+        -S /Nextag-Embedded-Base/
+        -B /Nextag-Embedded-Base/build/${{ matrix.build_type }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
 
     - name: Build
-      run:
-        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: >
+        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
+        ninja -C /Nextag-Embedded-Base/build/${{ matrix.build_type }} -j $(nproc)
 
     - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+      run: > 
+        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
+        ctest --test-dir /Nextag-Embedded-Base/build/${{ matrix.build_type }} -C ${{matrix.build_type}} --output-on-failure
