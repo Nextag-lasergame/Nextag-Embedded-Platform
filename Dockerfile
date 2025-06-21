@@ -7,15 +7,21 @@ RUN apt-get update  \
     build-essential \
     ninja-build \
     gdb \
-    wget \
+    curl \
     python3 \
     simavr \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-linux.tar.bz2
+RUN curl -L https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/SHA256SUMS -o SHA256SUMS
+RUN curl -L https://github.com/ZakKemble/avr-gcc-build/releases/download/v14.1.0-1/avr-gcc-14.1.0-x64-linux.tar.bz2 \
+    -o avr-gcc-14.1.0-x64-linux.tar.bz2
+RUN sha256sum --ignore-missing -c SHA256SUMS
+
+
 RUN mkdir /avr-toolchain/
 RUN tar -xf avr-gcc-14.1.0-x64-linux.tar.bz2 -C /avr-toolchain
 RUN rm avr-gcc-14.1.0-x64-linux.tar.bz2
+RUN rm SHA256SUMS
 
 ENV PATH="$PATH:/avr-toolchain/avr-gcc-14.1.0-x64-linux/bin"
