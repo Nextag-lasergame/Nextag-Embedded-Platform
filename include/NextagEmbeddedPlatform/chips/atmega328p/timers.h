@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "NextagEmbeddedPlatform/concepts/drivers/timer.h"
 #include "NextagEmbeddedPlatform/drivers/timer_clock.h"
 #include "NextagEmbeddedPlatform/drivers/timer_mode.h"
 
@@ -15,14 +16,14 @@ namespace NextagEmbeddedPlatform::Chips::Atmega328p
 
 struct Timer0Specialization
 {
-    template<Drivers::TimerMode mode>
+    template <Drivers::TimerMode mode>
     [[nodiscard]] static constexpr auto getModeMaskControlA() -> uint8_t
     {
         static_assert(mode == Drivers::TimerMode::CTC);
         return _BV(WGM01);
     }
 
-    template<Drivers::TimerClock clock>
+    template <Drivers::TimerClock clock>
     [[nodiscard]] static constexpr auto getClockSourceMask() -> uint8_t
     {
         static_assert(clock != Drivers::TimerClock::SYSTEM_PRESCALER_32 && "Timer 0 does not support prescaler 32");
@@ -51,22 +52,22 @@ struct Timer0Specialization
         return 0;
     }
 
-    static auto timerControlA() -> volatile uint8_t&
+    static auto timerControlA() -> volatile uint8_t &
     {
         return TCCR0A;
     }
 
-    static auto timerControlB() -> volatile uint8_t&
+    static auto timerControlB() -> volatile uint8_t &
     {
         return TCCR0B;
     }
 
-    static auto outputCompareA() -> volatile uint8_t&
+    static auto outputCompareA() -> volatile uint8_t &
     {
         return OCR0A;
     }
 
-    static auto outputCompareB() -> volatile uint8_t&
+    static auto outputCompareB() -> volatile uint8_t &
     {
         return OCR0B;
     }

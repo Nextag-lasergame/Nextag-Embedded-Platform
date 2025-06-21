@@ -5,9 +5,9 @@
 
 #pragma once
 
+#include "NextagEmbeddedPlatform/chips/atmega328p/timers.h"
 #include "NextagEmbeddedPlatform/concepts/drivers/timer.h"
 #include "NextagEmbeddedPlatform/drivers/timer.h"
-#include "NextagEmbeddedPlatform/chips/atmega328p/timers.h"
 
 namespace NextagEmbeddedPlatform::Peripherals
 {
