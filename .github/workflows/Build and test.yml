@@ -34,7 +34,7 @@ jobs:
         submodules: true
 
     - name: Build docker container
-      run:
+      run: >
         docker build -t avr-gcc-toolchain:latest -f Dockerfile . --platform=linux/amd64
 
     - name: Configure CMake
