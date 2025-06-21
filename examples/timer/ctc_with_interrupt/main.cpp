@@ -24,7 +24,7 @@ int main()
     timer.setCompareA<250>();
     timer.setClockSource<Drivers::TimerClock::SYSTEM_PRESCALER_1024>();
 
-    // TODO: Add function on the timer class 
+    // TODO: Add function on the timer class
     cli();
     TIMSK0 = TIMSK0 | _BV(OCIE0A);
     sei();

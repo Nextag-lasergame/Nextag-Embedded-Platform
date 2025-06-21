@@ -15,7 +15,7 @@
 namespace NextagEmbeddedPlatform::Concepts::Drivers
 {
 
-template<typename T>
+template <typename T>
 concept timer_datatype = is_same<T, uint8_t>::value || is_same<T, uint16_t>::value;
 
 template <typename T>
@@ -40,15 +40,13 @@ template <typename T>
 concept timerNew = timerSpecialized<T, uint8_t> || timerSpecialized<T, uint16_t>;
 
 template <typename T>
-concept timerChipSpecialization = requires(T t)
-{
+concept timerChipSpecialization = requires(T t) {
     { T::template getModeMaskControlA<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
     { T::template getClockSourceMask<NextagEmbeddedPlatform::Drivers::TimerClock::SYSTEM_PRESCALER_1>() } -> returns_type<uint8_t>;
-    { T::timerControlA() } -> returns_type<volatile uint8_t&>;
-    { T::timerControlB() } -> returns_type<volatile uint8_t&>;
-    { T::outputCompareA() } -> returns_type<volatile uint8_t&>;
-    { T::outputCompareB() } -> returns_type<volatile uint8_t&>;
-
+    { T::timerControlA() } -> returns_type<volatile uint8_t &>;
+    { T::timerControlB() } -> returns_type<volatile uint8_t &>;
+    { T::outputCompareA() } -> returns_type<volatile uint8_t &>;
+    { T::outputCompareB() } -> returns_type<volatile uint8_t &>;
 };
 
 } // namespace NextagEmbeddedPlatform::Concepts::Drivers
