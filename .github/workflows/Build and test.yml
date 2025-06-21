@@ -19,6 +19,7 @@ jobs:
         with:
           clang-format-version: '20'
           check-path: '.'
+          exclude-regex: .*third-party/.*
 
   Native-build-and-test:
     runs-on: ubuntu-latest
@@ -33,36 +34,25 @@ jobs:
       with:
         submodules: true
 
-    - name: Install dependencies
-      run: 
-        sudo apt-get update &&
-        sudo apt-get install -y cmake libfl2 simavr
-      
-    - name: Cache avr-toolchain
-      id: cache-avr-toolchain
-      uses: actions/cache@v4
-      with:
-        path: .\avr-toolchain
-        key: ${{ runner.os }}-avr-toolchain
-        restore-keys: ${{ runner.os }}-avr-toolchain
-    
-    - name: Setup avr-toolchain
-      if: steps.cache-avr-toolchain.outputs.cache-hit != 'true'
-      run:
-        wget https://github.com/Nextag-lasergame/avr-gcc-toolchains/releases/download/v13.2/avr-gcc-13.2.0-x64-linux.tar.gz &&
-        mkdir $PWD/avr-toolchain &&
-        tar -xf avr-gcc-13.2.0-x64-linux.tar.gz -C $PWD/avr-toolchain
+    - name: Build docker container
+      run: >
+        docker build -t avr-gcc-toolchain:latest -f Dockerfile . --platform=linux/amd64
 
     - name: Configure CMake
-      run: 
-        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
-        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -S . -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
+      run: >
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        cmake -G Ninja -S /Nextag-Embedded-Platform/ -B /Nextag-Embedded-Platform/build/${{ matrix.build_type }} 
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
 
     - name: Build
-      run:
-        export PATH="$PWD/avr-toolchain/avr-gcc-13.2.0-x64-linux/bin:$PATH" &&
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: >
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        ninja -C /Nextag-Embedded-Platform/build/${{ matrix.build_type }} -j $(nproc)
 
     - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+      run: > 
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        ctest --test-dir /Nextag-Embedded-Platform/build/${{ matrix.build_type }} -C ${{matrix.build_type}} --output-on-failure
