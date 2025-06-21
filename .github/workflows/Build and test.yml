@@ -19,6 +19,7 @@ jobs:
         with:
           clang-format-version: '20'
           check-path: '.'
+          exclude-regex: .*third-party/.*
 
   Native-build-and-test:
     runs-on: ubuntu-latest
@@ -39,19 +40,19 @@ jobs:
 
     - name: Configure CMake
       run: >
-        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
-        cmake -G Ninja
-        -S /Nextag-Embedded-Base/
-        -B /Nextag-Embedded-Base/build/${{ matrix.build_type }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        cmake -G Ninja -S /Nextag-Embedded-Platform/ -B /Nextag-Embedded-Platform/build/${{ matrix.build_type }} 
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DNEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO=ON
 
     - name: Build
       run: >
-        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
-        ninja -C /Nextag-Embedded-Base/build/${{ matrix.build_type }} -j $(nproc)
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        ninja -C /Nextag-Embedded-Platform/build/${{ matrix.build_type }} -j $(nproc)
 
     - name: Test
       run: > 
-        docker run --rm -v ${{ github.workspace }}:/Nextag-Embedded-Base avr-gcc-toolchain
-        ctest --test-dir /Nextag-Embedded-Base/build/${{ matrix.build_type }} -C ${{matrix.build_type}} --output-on-failure
+        docker run --rm 
+        -v ${{ github.workspace }}:/Nextag-Embedded-Platform avr-gcc-toolchain
+        ctest --test-dir /Nextag-Embedded-Platform/build/${{ matrix.build_type }} -C ${{matrix.build_type}} --output-on-failure
