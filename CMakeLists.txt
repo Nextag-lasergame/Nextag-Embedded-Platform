@@ -75,3 +75,5 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
 
 add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})
 avr_target_include_directories(NextagEmbeddedPlatform PUBLIC include)
+
+target_link_libraries(NextagEmbeddedPlatform-${AVR_MCU} PUBLIC avr-libstdcpp-${AVR_MCU})
