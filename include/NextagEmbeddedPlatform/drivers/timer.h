@@ -1,13 +1,11 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
 #pragma once
 
 #include "NextagEmbeddedPlatform/concepts/drivers/timer.h"
-
-#include <avr/io.h>
 
 namespace NextagEmbeddedPlatform::Drivers
 {
@@ -21,6 +19,7 @@ public:
     void setMode()
     {
         TimerSpecialization::timerControlA() |= TimerSpecialization::template getModeMaskControlA<timerMode>();
+        TimerSpecialization::timerControlB() |= TimerSpecialization::template getModeMaskControlB<timerMode>();
     }
 
     template <TimerDataType value>
@@ -38,13 +37,13 @@ public:
     template <TimerClock clockSource>
     void setClockSource()
     {
-        TimerSpecialization::timerControlB() &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
+        TimerSpecialization::timerControlB() &= TimerSpecialization::getClockSourceBitMask();
         TimerSpecialization::timerControlB() |= TimerSpecialization::template getClockSourceMask<clockSource>();
     }
 
     void stop()
     {
-        TimerSpecialization::timerControlB() &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
+        TimerSpecialization::timerControlB() &= TimerSpecialization::getClockSourceBitMask();
     }
 };
 

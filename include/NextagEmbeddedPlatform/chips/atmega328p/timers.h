@@ -14,21 +14,29 @@
 namespace NextagEmbeddedPlatform::Chips::Atmega328p
 {
 
+template <Drivers::TimerClock clock>
+concept Timer0SupportedClock = clock == Drivers::TimerClock::SYSTEM_PRESCALER_1 || clock == Drivers::TimerClock::SYSTEM_PRESCALER_8 || clock == Drivers::TimerClock::SYSTEM_PRESCALER_64 || clock == Drivers::TimerClock::SYSTEM_PRESCALER_256 || clock == Drivers::TimerClock::SYSTEM_PRESCALER_1024 || clock == Drivers::TimerClock::EXTERNAL_CLOCK_FALLING_EDGE || clock == Drivers::TimerClock::EXTERNAL_CLOCK_RISING_EDGE;
+
 struct Timer0Specialization
 {
     template <Drivers::TimerMode mode>
-    [[nodiscard]] static constexpr auto getModeMaskControlA() -> uint8_t
+    [[nodiscard]] static consteval auto getModeMaskControlA() -> uint8_t
     {
         static_assert(mode == Drivers::TimerMode::CTC);
         return _BV(WGM01);
     }
 
-    template <Drivers::TimerClock clock>
-    [[nodiscard]] static constexpr auto getClockSourceMask() -> uint8_t
+    template <Drivers::TimerMode mode>
+    [[nodiscard]] static consteval auto getModeMaskControlB() -> uint8_t
     {
-        static_assert(clock != Drivers::TimerClock::SYSTEM_PRESCALER_32 && "Timer 0 does not support prescaler 32");
-        static_assert(clock != Drivers::TimerClock::SYSTEM_PRESCALER_128 && "Timer 0 does not support prescaler 128");
+        static_assert(mode == Drivers::TimerMode::CTC);
+        return 0;
+    }
 
+    template <Drivers::TimerClock clock>
+        requires Timer0SupportedClock<clock>
+    [[nodiscard]] static consteval auto getClockSourceMask() -> uint8_t
+    {
         switch (clock)
         {
         case Drivers::TimerClock::SYSTEM_PRESCALER_1:
@@ -46,10 +54,16 @@ struct Timer0Specialization
         case Drivers::TimerClock::EXTERNAL_CLOCK_RISING_EDGE:
             return _BV(CS02) | _BV(CS01) | _BV(CS00);
         case Drivers::TimerClock::SYSTEM_PRESCALER_32:
+            [[fallthrough]];
         case Drivers::TimerClock::SYSTEM_PRESCALER_128:
-            return 0;
+            [[fallthrough]];
         }
         return 0;
+    }
+
+    static auto getClockSourceBitMask() -> uint8_t
+    {
+        return _BV(CS02) | _BV(CS01) | _BV(CS00);
     }
 
     static auto timerControlA() -> volatile uint8_t &

@@ -15,19 +15,19 @@ add_compile_options(-Werror -Wall -Wextra -Wno-missing-field-initializers -Wno-e
 
 option(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO FALSE)
 
-if(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
+if (NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
     include(chips/arduino-uno-config.cmake)
-endif(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
+endif (NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
 
 include(toolchain/generic-gcc-avr.cmake)
 
 add_compile_definitions(UNITY_EXCLUDE_FLOAT)
 
-if(WIN32)
+if (WIN32)
     set(PYTHON_EXECUTABLE python)
-else()
+else ()
     set(PYTHON_EXECUTABLE python3)
-endif()
+endif ()
 
 project(NextagEmbeddedPlatform)
 
@@ -45,7 +45,6 @@ set(NEXTAG_EMBEDDED_PLATFORM_SOURCES
         src/drivers/digital_io_registers.h
         src/drivers/serial.cpp
         src/drivers/serial_registers.h
-        src/drivers/timer8bit.cpp
         src/drivers/timer_registers.h)
 
 set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
@@ -60,7 +59,6 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/drivers/digital_io.h
         include/NextagEmbeddedPlatform/drivers/serial.h
         include/NextagEmbeddedPlatform/drivers/timer.h
-        include/NextagEmbeddedPlatform/drivers/timer8bit.h
         include/NextagEmbeddedPlatform/drivers/timer_clock.h
         include/NextagEmbeddedPlatform/drivers/timer_mode.h
         include/NextagEmbeddedPlatform/drivers/timer_result.h
@@ -73,7 +71,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/storage_containers/array.h
         include/NextagEmbeddedPlatform/storage_containers/circular_buffer.h
         include/NextagEmbeddedPlatform/storage_containers/generic_data_iterator.h
-        )
+)
 
 
 add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})

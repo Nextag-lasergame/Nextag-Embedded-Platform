@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 

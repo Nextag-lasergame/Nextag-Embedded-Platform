@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
@@ -18,15 +18,6 @@ namespace NextagEmbeddedPlatform::Concepts::Drivers
 template <typename T>
 concept timer_datatype = is_same<T, uint8_t>::value || is_same<T, uint16_t>::value;
 
-template <typename T>
-concept timer = requires(T t, NextagEmbeddedPlatform::Drivers::TimerMode mode, uint16_t value, NextagEmbeddedPlatform::Drivers::TimerClock clock) {
-    { t.setMode(mode) } -> returns_void;
-    { t.setCompareA(value) } -> returns_void;
-    { t.setCompareB(value) } -> returns_void;
-    { t.setClockSource(clock) } -> returns_type<NextagEmbeddedPlatform::Drivers::TimerResult>;
-    { t.stop() } -> returns_void;
-};
-
 template <typename T, typename DataType>
 concept timerSpecialized = timer_datatype<DataType> && requires(T t) {
     { t.template setMode<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_void;
@@ -42,7 +33,9 @@ concept timerNew = timerSpecialized<T, uint8_t> || timerSpecialized<T, uint16_t>
 template <typename T>
 concept timerChipSpecialization = requires(T t) {
     { T::template getModeMaskControlA<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
+    { T::template getModeMaskControlB<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
     { T::template getClockSourceMask<NextagEmbeddedPlatform::Drivers::TimerClock::SYSTEM_PRESCALER_1>() } -> returns_type<uint8_t>;
+    { T::getClockSourceBitMask() } -> returns_type<uint8_t>;
     { T::timerControlA() } -> returns_type<volatile uint8_t &>;
     { T::timerControlB() } -> returns_type<volatile uint8_t &>;
     { T::outputCompareA() } -> returns_type<volatile uint8_t &>;
