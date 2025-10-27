@@ -12,7 +12,7 @@
 
 void setUp()
 {
-    Timer0::setUp();
+    Timer0Tests::setUp();
 }
 
 void tearDown()
@@ -24,7 +24,7 @@ int main()
     NextagEmbeddedPlatform::TestUtils::initTestSerial();
 
     UNITY_BEGIN();
-    Timer0::runTests();
+    Timer0Tests::runTests();
     UNITY_END();
 
     sleep_cpu();

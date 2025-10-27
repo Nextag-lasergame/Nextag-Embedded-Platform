@@ -1,49 +1,116 @@
 /*
- * Copyright © 2022-2025 Tim Herreijgers
+ * Copyright © 2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
 #pragma once
 
+#include "NextagEmbeddedPlatform/concepts/concepts.h"
 #include "NextagEmbeddedPlatform/concepts/drivers/timer.h"
+
+#include <avr/interrupt.h>
 
 namespace NextagEmbeddedPlatform::Drivers
 {
 
-// TODO: Add impl class to differentiate between different timer implementations (registers, supported prescalers, etc)
-template <Concepts::Drivers::timer_datatype TimerDataType, Concepts::Drivers::timerChipSpecialization TimerSpecialization>
+template <typename TimerDescriptor>
 class Timer
 {
 public:
-    template <TimerMode timerMode>
-    void setMode()
+    // TODO: Wrap these in conditional
+    using TimerMode = typename TimerDescriptor::TimerMode;
+    using ClockSelect = typename TimerDescriptor::ClockSelect;
+    using Interrupt = typename TimerDescriptor::Interrupt;
+    using DataType = typename TimerDescriptor::DataType;
+
+    Timer() = delete;
+
+    static void setMode(TimerMode timerMode)
+        requires HasCombinedTimerMode<TimerDescriptor>
     {
-        TimerSpecialization::timerControlA() |= TimerSpecialization::template getModeMaskControlA<timerMode>();
-        TimerSpecialization::timerControlB() |= TimerSpecialization::template getModeMaskControlB<timerMode>();
+        TimerDescriptor::controlAB |= static_cast<uint16_t>(timerMode);
     }
 
-    template <TimerDataType value>
-    void setCompareA()
+    static void setClockSource(ClockSelect clockSelect)
+        requires HasClockSelect<TimerDescriptor> && HasTimerControlB<TimerDescriptor>
     {
-        TimerSpecialization::outputCompareA() = value;
+        TimerDescriptor::controlB |= static_cast<uint8_t>(clockSelect);
     }
 
-    template <TimerDataType value>
-    void setCompareB()
+    static void stop()
+        requires HasClockSelectNoClockSource<TimerDescriptor> && HasTimerControlB<TimerDescriptor>
     {
-        TimerSpecialization::outputCompareB() = value;
+        setClockSource(ClockSelect::NO_CLOCK_SOURCE);
     }
 
-    template <TimerClock clockSource>
-    void setClockSource()
+    static void setCompareA(DataType value)
+        requires HasTimerCompareA<TimerDescriptor>
     {
-        TimerSpecialization::timerControlB() &= TimerSpecialization::getClockSourceBitMask();
-        TimerSpecialization::timerControlB() |= TimerSpecialization::template getClockSourceMask<clockSource>();
+        TimerDescriptor::compareA = value;
     }
 
-    void stop()
+    static void setCompareB(DataType value)
+        requires HasTimerCompareB<TimerDescriptor>
     {
-        TimerSpecialization::timerControlB() &= TimerSpecialization::getClockSourceBitMask();
+        TimerDescriptor::compareB = value;
+    }
+
+    template <typename... T>
+    static void setInterrupt(T... interrupts)
+        requires Concepts::all_same_as<Interrupt, T...> && HasTimerInterrupt<TimerDescriptor>
+    {
+        const auto interruptMask = (static_cast<uint8_t>(interrupts) | ...);
+
+        cli();
+        TimerDescriptor::interrupt |= interruptMask;
+        sei();
+    }
+
+    template <typename... T>
+    static void resetInterrupt(T... interrupts)
+        requires Concepts::all_same_as<Interrupt, T...> && HasTimerInterrupt<TimerDescriptor>
+    {
+        constexpr auto interruptMask = (static_cast<uint8_t>(interrupts) | ...);
+
+        cli();
+        TimerDescriptor::interrupt &= ~interruptMask;
+        sei();
+    }
+
+    static auto controlA() -> uint8_t &
+        requires HasTimerControlA<TimerDescriptor>
+    {
+        return TimerDescriptor::controlA;
+    }
+
+    static auto controlB() -> uint8_t &
+        requires HasTimerControlB<TimerDescriptor>
+    {
+        return TimerDescriptor::controlB;
+    }
+
+    static auto compareA() -> uint8_t &
+        requires HasTimerCompareA<TimerDescriptor>
+    {
+        return TimerDescriptor::compareA;
+    }
+
+    static auto compareB() -> uint8_t &
+        requires HasTimerCompareB<TimerDescriptor>
+    {
+        return TimerDescriptor::compareB;
+    }
+
+    static auto counter() -> uint8_t &
+        requires HasTimerCounter<TimerDescriptor>
+    {
+        return TimerDescriptor::counter;
+    }
+
+    static auto interrupt() -> uint8_t &
+        requires HasTimerInterrupt<TimerDescriptor>
+    {
+        return TimerDescriptor::interrupt;
     }
 };
 

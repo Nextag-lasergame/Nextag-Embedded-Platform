@@ -5,41 +5,66 @@
 
 #pragma once
 
-#include "NextagEmbeddedPlatform/concepts/concepts.h"
-#include "NextagEmbeddedPlatform/drivers/timer_clock.h"
-#include "NextagEmbeddedPlatform/drivers/timer_mode.h"
-#include "NextagEmbeddedPlatform/drivers/timer_result.h"
-
-#include <inttypes.h>
-
-namespace NextagEmbeddedPlatform::Concepts::Drivers
+namespace NextagEmbeddedPlatform
 {
 
 template <typename T>
-concept timer_datatype = is_same<T, uint8_t>::value || is_same<T, uint16_t>::value;
-
-template <typename T, typename DataType>
-concept timerSpecialized = timer_datatype<DataType> && requires(T t) {
-    { t.template setMode<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_void;
-    { t.template setCompareA<DataType{0}>() } -> returns_void;
-    { t.template setCompareB<DataType{0}>() } -> returns_void;
-    { t.template setClockSource<NextagEmbeddedPlatform::Drivers::TimerClock::SYSTEM_PRESCALER_1>() } -> returns_void;
-    { t.stop() } -> returns_void;
+concept HasTimerDataType = requires(T t) {
+    typename T::DataType;
 };
 
 template <typename T>
-concept timerNew = timerSpecialized<T, uint8_t> || timerSpecialized<T, uint16_t>;
-
-template <typename T>
-concept timerChipSpecialization = requires(T t) {
-    { T::template getModeMaskControlA<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
-    { T::template getModeMaskControlB<NextagEmbeddedPlatform::Drivers::TimerMode::CTC>() } -> returns_type<uint8_t>;
-    { T::template getClockSourceMask<NextagEmbeddedPlatform::Drivers::TimerClock::SYSTEM_PRESCALER_1>() } -> returns_type<uint8_t>;
-    { T::getClockSourceBitMask() } -> returns_type<uint8_t>;
-    { T::timerControlA() } -> returns_type<volatile uint8_t &>;
-    { T::timerControlB() } -> returns_type<volatile uint8_t &>;
-    { T::outputCompareA() } -> returns_type<volatile uint8_t &>;
-    { T::outputCompareB() } -> returns_type<volatile uint8_t &>;
+concept HasTimerControlA = requires(T t) {
+    T::controlA;
 };
 
-} // namespace NextagEmbeddedPlatform::Concepts::Drivers
+template <typename T>
+concept HasTimerControlB = requires(T t) {
+    T::controlB;
+};
+
+template <typename T>
+concept HasTimerControlAB = requires(T t) {
+    T::controlAB;
+};
+
+template <typename T>
+concept HasTimerCompareA = requires(T t) {
+    T::compareA;
+};
+
+template <typename T>
+concept HasTimerCompareB = requires(T t) {
+    T::compareB;
+};
+
+template <typename T>
+concept HasTimerCounter = requires(T t) {
+    T::counter;
+};
+
+template <typename T>
+concept HasTimerInterrupt = requires(T t) {
+    T::interrupt;
+    typename T::Interrupt;
+};
+
+template <typename T>
+concept HasTimerMode = requires(T t) {
+    typename T::TimerMode;
+};
+
+template <typename T>
+concept HasCombinedTimerMode = HasTimerControlAB<T> && HasTimerMode<T>;
+
+template <typename T>
+concept HasClockSelect = requires(T t) {
+    typename T::ClockSelect;
+};
+
+template <typename T>
+concept HasClockSelectNoClockSource = HasClockSelect<T> && requires(T t) {
+    T::ClockSelect::NO_CLOCK_SOURCE;
+};
+
+} // namespace NextagEmbeddedPlatform
