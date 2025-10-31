@@ -1,12 +1,12 @@
 function(add_avr_library LIBRARY_NAME)
-    if(NOT ARGN)
-        message(FATAL_ERROR "No source files given for ${LIBRARY_NAME}.")
-    endif(NOT ARGN)
-
     set(lib_file ${LIBRARY_NAME}${MCU_TYPE_FOR_FILENAME})
-    set (${LIBRARY_NAME}_LIB_TARGET ${elf_file} PARENT_SCOPE)
+    set(${LIBRARY_NAME}_LIB_TARGET ${elf_file} PARENT_SCOPE)
 
-    add_library(${lib_file} STATIC ${ARGN})
+    if (NOT ARGN)
+        add_library(${lib_file} STATIC)
+    else ()
+        add_library(${lib_file} STATIC ${ARGN})
+    endif (NOT ARGN)
 
     set_target_properties(
             ${lib_file}
@@ -15,7 +15,7 @@ function(add_avr_library LIBRARY_NAME)
             OUTPUT_NAME "${lib_file}"
     )
 
-    if(NOT TARGET ${LIBRARY_NAME})
+    if (NOT TARGET ${LIBRARY_NAME})
         add_custom_target(
                 ${LIBRARY_NAME}
                 ALL
@@ -27,6 +27,6 @@ function(add_avr_library LIBRARY_NAME)
                 PROPERTIES
                 OUTPUT_NAME "${lib_file}"
         )
-    endif(NOT TARGET ${LIBRARY_NAME})
+    endif (NOT TARGET ${LIBRARY_NAME})
 
 endfunction(add_avr_library)
