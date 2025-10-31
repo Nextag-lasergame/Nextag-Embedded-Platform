@@ -75,7 +75,7 @@ TEST(constArraySupportsRangeBasedForLoop)
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
+    NextagTest::initTestSerial();
     NextagTest::TestCollection::runAllTests();
 
     sleep_cpu();

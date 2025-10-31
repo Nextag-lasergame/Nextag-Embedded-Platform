@@ -1,9 +1,12 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
-#include <test_utils/serial.h>
+#include "nextag_test/serial.h"
+
+
+#include <nextag_test/nextag_test.h>
 
 #include <NextagEmbeddedPlatform/drivers/digital_io.h>
 
@@ -67,7 +70,7 @@ void tearDown()
 {
 }
 
-void directionIsSetCorrectly()
+TEST(directionIsSetCorrectly)
 {
     for (const auto & pin : pins)
     {
@@ -81,7 +84,7 @@ void directionIsSetCorrectly()
     }
 }
 
-void setStateSetsCorrectButInOutputRegister()
+TEST(setStateSetsCorrectButInOutputRegister)
 {
     for (const auto & pin : pins)
     {
@@ -95,7 +98,7 @@ void setStateSetsCorrectButInOutputRegister()
     }
 }
 
-void getStateGetsCorrectStateFromInputRegister()
+TEST(getStateGetsCorrectStateFromInputRegister)
 {
     for (const auto & pin : pins)
     {
@@ -112,13 +115,8 @@ void getStateGetsCorrectStateFromInputRegister()
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
-
-    UNITY_BEGIN();
-    RUN_TEST(directionIsSetCorrectly);
-    RUN_TEST(setStateSetsCorrectButInOutputRegister);
-    RUN_TEST(getStateGetsCorrectStateFromInputRegister);
-    UNITY_END();
+    NextagTest::initTestSerial();
+    NextagTest::TestCollection::runAllTests();
 
     sleep_cpu();
 }

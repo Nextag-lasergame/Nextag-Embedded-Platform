@@ -128,7 +128,7 @@ TEST(peekReturnCorrectValue)
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
+    NextagTest::initTestSerial();
     NextagTest::TestCollection::runAllTests();
 
     sleep_cpu();
