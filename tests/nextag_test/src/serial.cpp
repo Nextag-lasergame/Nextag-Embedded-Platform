@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
@@ -8,7 +8,7 @@
 #include <avr/io.h>
 #include <stdio.h>
 
-namespace NextagEmbeddedPlatform::TestUtils
+namespace NextagTest
 {
 
 #define BAUD   250000
@@ -54,4 +54,4 @@ int usart_putchar_printf(char var, FILE * /*stream*/)
     return 0;
 }
 
-} // namespace NextagEmbeddedPlatform::TestUtils
+} // namespace NextagTest

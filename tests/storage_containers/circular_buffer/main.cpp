@@ -1,9 +1,10 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
-#include <test_utils/serial.h>
+#include <nextag_test/nextag_test.h>
+#include <nextag_test/serial.h>
 
 #include <NextagEmbeddedPlatform/storage_containers/circular_buffer.h>
 
@@ -23,24 +24,24 @@ void tearDown()
 {
 }
 
-void emptyBufferReturnsBufferAvailableBytesOf0()
+TEST(emptyBufferReturnsBufferAvailableBytesOf0)
 {
     TEST_ASSERT_EQUAL(0, s_buffer.count());
 }
 
-void addingToBufferReturnsCorrectAvailability()
+TEST(addingToBufferReturnsCorrectAvailability)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
     TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
-void addingToBufferReturnsTrueOnSuccess()
+TEST(addingToBufferReturnsTrueOnSuccess)
 {
     TEST_ASSERT_TRUE(s_buffer.push_back(0));
 }
 
-void addingToBufferWhenBufferIsFullReturnFalse()
+TEST(addingToBufferWhenBufferIsFullReturnFalse)
 {
     for (auto i = 0; i < 10; i++)
     {
@@ -50,7 +51,7 @@ void addingToBufferWhenBufferIsFullReturnFalse()
     TEST_ASSERT_FALSE(s_buffer.push_back(0));
 }
 
-void poppingFromBufferChangesAvailability()
+TEST(poppingFromBufferChangesAvailability)
 {
     s_buffer.push_back(0);
     s_buffer.push_back(0);
@@ -59,7 +60,7 @@ void poppingFromBufferChangesAvailability()
     TEST_ASSERT_EQUAL(1, s_buffer.count());
 }
 
-void poppingFromBufferReturnsCorrectData()
+TEST(poppingFromBufferReturnsCorrectData)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
@@ -68,7 +69,7 @@ void poppingFromBufferReturnsCorrectData()
     TEST_ASSERT_EQUAL(20, s_buffer.pop());
 }
 
-void poppingFromBufferSizeOverflowReturnsCorrectData()
+TEST(poppingFromBufferSizeOverflowReturnsCorrectData)
 {
     for (auto i = 0; i < 10; i++)
     {
@@ -80,7 +81,7 @@ void poppingFromBufferSizeOverflowReturnsCorrectData()
     TEST_ASSERT_EQUAL(10, s_buffer.pop());
 }
 
-void checkingAvailabilityOnCounterOverflowStillWorks()
+TEST(checkingAvailabilityOnCounterOverflowStillWorks)
 {
     for (uint32_t i = 0; i < 65534; i++)
     {
@@ -99,14 +100,14 @@ void checkingAvailabilityOnCounterOverflowStillWorks()
     TEST_ASSERT_EQUAL(5, s_buffer.count());
 }
 
-void poppingOnEmptyBufferReturnsDefaultConstructedObject()
+TEST(poppingOnEmptyBufferReturnsDefaultConstructedObject)
 {
     s_buffer.push_back(10);
     TEST_ASSERT_EQUAL(10, s_buffer.pop());
     TEST_ASSERT_EQUAL(uint16_t{}, s_buffer.pop());
 }
 
-void peekDoesntChangeAvailability()
+TEST(peekDoesntChangeAvailability)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
@@ -115,7 +116,7 @@ void peekDoesntChangeAvailability()
     TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
-void peekReturnCorrectValue()
+TEST(peekReturnCorrectValue)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
@@ -128,20 +129,7 @@ void peekReturnCorrectValue()
 int main()
 {
     NextagEmbeddedPlatform::TestUtils::initTestSerial();
-
-    UNITY_BEGIN();
-    RUN_TEST(emptyBufferReturnsBufferAvailableBytesOf0);
-    RUN_TEST(addingToBufferReturnsCorrectAvailability);
-    RUN_TEST(addingToBufferReturnsTrueOnSuccess);
-    RUN_TEST(addingToBufferWhenBufferIsFullReturnFalse);
-    RUN_TEST(poppingFromBufferChangesAvailability);
-    RUN_TEST(poppingFromBufferReturnsCorrectData);
-    RUN_TEST(poppingFromBufferSizeOverflowReturnsCorrectData);
-    RUN_TEST(checkingAvailabilityOnCounterOverflowStillWorks);
-    RUN_TEST(poppingOnEmptyBufferReturnsDefaultConstructedObject);
-    RUN_TEST(peekDoesntChangeAvailability);
-    RUN_TEST(peekReturnCorrectValue);
-    UNITY_END();
+    NextagTest::TestCollection::runAllTests();
 
     sleep_cpu();
 }
