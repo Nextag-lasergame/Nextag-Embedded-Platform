@@ -36,7 +36,7 @@ void usart_init(uint16_t ubrr)
     // Enable receiver and transmitter
     UCSR0B = (1 << RXEN0) | (1 << TXEN0);
     // Set frame format: 8data, 1stop bit
-    UCSR0C = (1 << UMSEL00) | (3 << UCSZ00);
+    UCSR0C = (3 << UCSZ00);
 }
 void usart_putchar(char data)
 {

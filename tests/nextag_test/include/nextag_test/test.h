@@ -10,14 +10,6 @@
 namespace NextagTest
 {
 
-template <typename T>
-[[nodiscard]] auto createTest(const char * name, const char * file, int line) -> T
-{
-    T t{};
-    t.setMetaData(name, file, line);
-    return t;
-}
-
 class Test
 {
 public:

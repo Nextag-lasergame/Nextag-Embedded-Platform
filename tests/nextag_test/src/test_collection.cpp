@@ -16,7 +16,7 @@ static Test * testToExecute = nullptr;
 
 void TestCollection::runAllTests()
 {
-    UNITY_BEGIN();
+    UnityBegin(nullptr);
     for (size_t i = 0; i < m_testList.size(); i++)
     {
         auto & test = *m_testList.at(i);
@@ -26,7 +26,7 @@ void TestCollection::runAllTests()
         UnityDefaultTestRun([]() { testToExecute->operator()(); }, test.name(), test.line());
         test.tearDown();
     }
-    UNITY_END();
+    UnityEnd();
 }
 
 void TestCollection::addTest(Test * test)
