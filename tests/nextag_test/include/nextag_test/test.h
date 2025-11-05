@@ -27,6 +27,11 @@ public:
 
     void setMetaData(const char * name, const char * file, int line);
 
+    void * operator new(size_t size)
+    {
+        return malloc(size);
+    }
+
     void operator delete(void * ptr)
     {
         free(ptr);

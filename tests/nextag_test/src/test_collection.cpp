@@ -16,7 +16,7 @@ static Test * testToExecute = nullptr;
 
 void TestCollection::runAllTests()
 {
-    UnityBegin(nullptr);
+    UnityBegin(__FILE__);
     for (size_t i = 0; i < m_testList.size(); i++)
     {
         auto & test = *m_testList.at(i);
