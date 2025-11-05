@@ -23,7 +23,7 @@
     };                                                                           \
     static TestName CONCAT(test_, TestName);                                     \
     static const auto CONCAT(initializedTest_, TestName) = [](TestName & test) { \
-        test.setMetaData(#DisplayName, __FILE__, __LINE__);                      \
+        test.setMetaData(#TestSuite "\\" #DisplayName, __FILE__, __LINE__);      \
         return true;                                                             \
     }(CONCAT(test_, TestName));                                                  \
     void TestName::operator()()
