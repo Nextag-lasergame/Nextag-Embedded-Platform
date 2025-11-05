@@ -1,9 +1,10 @@
 /*
- * Copyright © 2022 Tim Herreijgers
+ * Copyright © 2022-2025 Tim Herreijgers
  * Licensed using the MIT license
  */
 
-#include <test_utils/serial.h>
+#include <nextag_test/nextag_test.h>
+#include <nextag_test/serial.h>
 
 #include <NextagEmbeddedPlatform/storage_containers/array.h>
 
@@ -23,18 +24,18 @@ void tearDown()
 {
 }
 
-void arrayWithSize10ReturnsSize10()
+TEST(arrayWithSize10ReturnsSize10)
 {
     TEST_ASSERT_EQUAL_INT32(10, s_array.size());
 }
 
-void addingToArrayAddToArrayCorrectly()
+TEST(addingToArrayAddToArrayCorrectly)
 {
     s_array[0] = 100;
     TEST_ASSERT_EQUAL_INT32(100, s_array[0]);
 }
 
-void addingTwoItemsToArrayAddToArrayCorrectly()
+TEST(addingTwoItemsToArrayAddToArrayCorrectly)
 {
     s_array[1] = 200;
     s_array[2] = 1000000;
@@ -42,19 +43,19 @@ void addingTwoItemsToArrayAddToArrayCorrectly()
     TEST_ASSERT_EQUAL_INT32(1000000, s_array[2]);
 }
 
-void accessingItemUsingAtWorksCorrectly()
+TEST(accessingItemUsingAtWorksCorrectly)
 {
     s_array[2] = 1000000;
     TEST_ASSERT_EQUAL_INT32(s_array[2], s_array.at(2));
 }
 
-void accessingFirstElementUsingDataFunctionWorksCorrectly()
+TEST(accessingFirstElementUsingDataFunctionWorksCorrectly)
 {
     s_array[2] = 1000000;
     TEST_ASSERT_EQUAL_INT32(s_array[2], *((s_array.data()) + 2));
 }
 
-void arraySupportsRangeBasedForLoop()
+TEST(arraySupportsRangeBasedForLoop)
 {
     for (const auto & _ : s_array)
     {
@@ -62,7 +63,7 @@ void arraySupportsRangeBasedForLoop()
     }
 }
 
-void constArraySupportsRangeBasedForLoop()
+TEST(constArraySupportsRangeBasedForLoop)
 {
     const Array<uint32_t, 5> array{};
 
@@ -74,17 +75,8 @@ void constArraySupportsRangeBasedForLoop()
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
-
-    UNITY_BEGIN();
-    RUN_TEST(arrayWithSize10ReturnsSize10);
-    RUN_TEST(addingToArrayAddToArrayCorrectly);
-    RUN_TEST(addingTwoItemsToArrayAddToArrayCorrectly);
-    RUN_TEST(accessingItemUsingAtWorksCorrectly);
-    RUN_TEST(accessingFirstElementUsingDataFunctionWorksCorrectly);
-    RUN_TEST(arraySupportsRangeBasedForLoop);
-    RUN_TEST(constArraySupportsRangeBasedForLoop);
-    UNITY_END();
+    NextagTest::initTestSerial();
+    NextagTest::TestCollection::runAllTests();
 
     sleep_cpu();
 }

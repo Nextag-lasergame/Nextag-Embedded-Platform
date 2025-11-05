@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.23)
 
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
@@ -15,19 +15,19 @@ add_compile_options(-Werror -Wall -Wextra -Wno-missing-field-initializers -Wno-e
 
 option(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO FALSE)
 
-if(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
+if (NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
     include(chips/arduino-uno-config.cmake)
-endif(NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
+endif (NEXTAG_EMBEDDED_PLATFORM_CONFIGURE_AS_UNO)
 
 include(toolchain/generic-gcc-avr.cmake)
 
 add_compile_definitions(UNITY_EXCLUDE_FLOAT)
 
-if(WIN32)
+if (WIN32)
     set(PYTHON_EXECUTABLE python)
-else()
+else ()
     set(PYTHON_EXECUTABLE python3)
-endif()
+endif ()
 
 project(NextagEmbeddedPlatform)
 
@@ -70,7 +70,7 @@ set(NEXTAG_EMBEDDED_PLATFORM_HEADERS
         include/NextagEmbeddedPlatform/storage_containers/array.h
         include/NextagEmbeddedPlatform/storage_containers/circular_buffer.h
         include/NextagEmbeddedPlatform/storage_containers/generic_data_iterator.h
-        )
+)
 
 
 add_avr_library(NextagEmbeddedPlatform ${NEXTAG_EMBEDDED_PLATFORM_SOURCES} ${NEXTAG_EMBEDDED_PLATFORM_HEADERS})
