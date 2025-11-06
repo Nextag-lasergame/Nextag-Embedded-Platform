@@ -17,15 +17,15 @@ static Test * testToExecute = nullptr;
 
 void TestCollection::runAllTests()
 {
-    UnityBegin("");
+    UnityBegin(PSTR("N/A"));
     for (size_t i = 0; i < m_testList.size(); i++)
     {
         auto & test = *m_testList.at(i);
-        char testFileBuffer[128] = {0};
-        char testNameBuffer[123] = {0};
+        char testFileBuffer[64] = {0};
+        char testNameBuffer[128] = {0};
 
-        strcpy_P(testFileBuffer, test.file());
-        strcpy_P(testNameBuffer, test.name());
+        strncpy_P(testFileBuffer, test.file(), 63);
+        strncpy_P(testNameBuffer, test.name(), 127);
 
         UnitySetTestFile(testFileBuffer);
         testToExecute = &test;
