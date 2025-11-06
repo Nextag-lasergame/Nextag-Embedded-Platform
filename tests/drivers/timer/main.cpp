@@ -3,9 +3,8 @@
  * Licensed using the MIT license
  */
 
-#include "timer0_tests.h"
-
-#include "test_utils/serial.h"
+#include "nextag_test/nextag_test.h"
+#include "nextag_test/serial.h"
 
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
@@ -13,7 +12,6 @@
 
 void setUp()
 {
-    Timer0Tests::setUp();
 }
 
 void tearDown()
@@ -22,11 +20,8 @@ void tearDown()
 
 int main()
 {
-    NextagEmbeddedPlatform::TestUtils::initTestSerial();
-
-    UNITY_BEGIN();
-    Timer0Tests::runTests();
-    UNITY_END();
+    NextagTest::initTestSerial();
+    NextagTest::TestCollection::runAllTests();
 
     cli();
     sleep_cpu();
