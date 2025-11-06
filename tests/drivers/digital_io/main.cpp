@@ -3,15 +3,13 @@
  * Licensed using the MIT license
  */
 
-#include "nextag_test/serial.h"
-
-
 #include <nextag_test/nextag_test.h>
 
 #include <NextagEmbeddedPlatform/drivers/digital_io.h>
 
-#include <avr/sleep.h>
 #include <unity.h>
+
+#include <avr/sleep.h>
 
 using namespace NextagEmbeddedPlatform::Drivers;
 
