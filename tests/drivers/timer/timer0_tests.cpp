@@ -30,10 +30,27 @@ public:
     }
 };
 
+TEST_F(Timer0Tests, SetModeToNormal_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::NORMAL);
+    TEST_ASSERT_BITS_LOW(_BV(WGM01) | _BV(WGM00), TCCR0A);
+    TEST_ASSERT_BIT_LOW(_BV(WGM02), TCCR0B);
+}
+
 TEST_F(Timer0Tests, SetModeToCTC_SetsCorrectRegisters)
 {
     Timer0::setMode(Timer0::TimerMode::CTC);
     TEST_ASSERT_BITS_HIGH(_BV(WGM01), TCCR0A);
+    TEST_ASSERT_BITS_LOW(_BV(WGM00), TCCR0A);
+    TEST_ASSERT_BITS_LOW(_BV(WGM02), TCCR0B);
+}
+
+TEST_F(Timer0Tests, SetModeToNormal_AfterSetToCTC_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::CTC);
+    Timer0::setMode(Timer0::TimerMode::NORMAL);
+    TEST_ASSERT_BITS_LOW(_BV(WGM01) | _BV(WGM00), TCCR0A);
+    TEST_ASSERT_BIT_LOW(_BV(WGM02), TCCR0B);
 }
 
 TEST_F(Timer0Tests, SetClockSource_SetsCorrectRegisterValue)

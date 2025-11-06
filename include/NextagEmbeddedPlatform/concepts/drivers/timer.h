@@ -52,6 +52,7 @@ concept HasTimerInterrupt = requires(T t) {
 template <typename T>
 concept HasTimerMode = requires(T t) {
     typename T::TimerMode;
+    T::timerModeMask;
 };
 
 template <typename T>

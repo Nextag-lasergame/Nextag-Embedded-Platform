@@ -31,9 +31,10 @@ struct Atmega328pDescriptor
         static volatile uint8_t & counter;
         static volatile uint8_t & interrupt;
 
-        // static constexpr uint8_t timerModeMask = _BV(CS00) | _BV(CS01) | _BV(CS02);
+        static constexpr uint8_t timerModeMask = _BV(CS00) | _BV(CS01) | _BV(CS02);
         enum class TimerMode
         {
+            NORMAL = createCombinedRegisterValue(0, 0),
             CTC = createCombinedRegisterValue(_BV(WGM01), 0)
         };
 

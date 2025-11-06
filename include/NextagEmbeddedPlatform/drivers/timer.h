@@ -17,6 +17,7 @@ template <typename TimerDescriptor>
 class Timer
 {
 public:
+    using Descriptor = TimerDescriptor;
     using TimerMode = typename TimerDescriptor::TimerMode;
     using ClockSelect = typename TimerDescriptor::ClockSelect;
     using Interrupt = typename TimerDescriptor::Interrupt;
@@ -27,6 +28,7 @@ public:
     static void setMode(TimerMode timerMode)
         requires HasCombinedTimerMode<TimerDescriptor>
     {
+        TimerDescriptor::controlAB &= ~TimerDescriptor::timerModeMask;
         TimerDescriptor::controlAB |= static_cast<uint16_t>(timerMode);
     }
 
