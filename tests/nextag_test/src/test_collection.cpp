@@ -5,6 +5,7 @@
 
 #include "nextag_test/test_collection.h"
 
+#include <avr/pgmspace.h>
 #include <unity.h>
 
 namespace NextagTest
@@ -16,14 +17,23 @@ static Test * testToExecute = nullptr;
 
 void TestCollection::runAllTests()
 {
-    UnityBegin(__FILE__);
+    UnityBegin("");
     for (size_t i = 0; i < m_testList.size(); i++)
     {
         auto & test = *m_testList.at(i);
-        UnitySetTestFile(test.file());
+        char testFileBuffer[128] = {0};
+        char testNameBuffer[123] = {0};
+
+        strcpy_P(testFileBuffer, test.file());
+        strcpy_P(testNameBuffer, test.name());
+
+        UnitySetTestFile(testFileBuffer);
         testToExecute = &test;
         test.setUp();
-        UnityDefaultTestRun([]() { testToExecute->operator()(); }, test.name(), test.line());
+        UnityDefaultTestRun([]() {
+            testToExecute->operator()();
+        },
+                            testNameBuffer, test.line());
         test.tearDown();
     }
     UnityEnd();
