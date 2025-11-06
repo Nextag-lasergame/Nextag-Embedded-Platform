@@ -24,8 +24,8 @@ void TestCollection::runAllTests()
         char testFileBuffer[64] = {0};
         char testNameBuffer[128] = {0};
 
-        strncpy_P(testFileBuffer, test.file(), 63);
-        strncpy_P(testNameBuffer, test.name(), 127);
+        strncpy_P(testFileBuffer, test.file(), sizeof(testFileBuffer) - 1);
+        strncpy_P(testNameBuffer, test.name(), sizeof(testNameBuffer) - 1);
 
         UnitySetTestFile(testFileBuffer);
         testToExecute = &test;
