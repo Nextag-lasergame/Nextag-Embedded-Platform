@@ -53,22 +53,28 @@ static pinData pins[] =
 
 void setUp()
 {
-    DDRB = 0;
-    PORTB = 0;
-    PINB = 0;
-    DDRC = 0;
-    PORTC = 0;
-    PINC = 0;
-    DDRD = 0;
-    PORTD = 0;
-    PIND = 0;
 }
 
 void tearDown()
 {
 }
 
-TEST(directionIsSetCorrectly)
+class DigitalIOTest : public NextagTest::Test
+{
+public:
+    void setUp() override
+    {
+        DDRB = 0;
+        PORTB = 0;
+        PINB = 0;
+        DDRC = 0;
+        PORTC = 0;
+        PINC = 0;
+        DDRD = 0;
+    }
+};
+
+TEST_F(DigitalIOTest, directionIsSetCorrectly)
 {
     for (const auto & pin : pins)
     {
@@ -82,7 +88,7 @@ TEST(directionIsSetCorrectly)
     }
 }
 
-TEST(setStateSetsCorrectButInOutputRegister)
+TEST_F(DigitalIOTest, setStateSetsCorrectButInOutputRegister)
 {
     for (const auto & pin : pins)
     {
@@ -96,7 +102,7 @@ TEST(setStateSetsCorrectButInOutputRegister)
     }
 }
 
-TEST(getStateGetsCorrectStateFromInputRegister)
+TEST_F(DigitalIOTest, getStateGetsCorrectStateFromInputRegister)
 {
     for (const auto & pin : pins)
     {

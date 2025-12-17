@@ -31,6 +31,6 @@
     }(CONCAT(test_, TestName));                                                              \
     void TestName::operator()()
 
-#define TEST_F(TestSuite, TestName) TEST_IMPL(TestSuite, CONCAT_TEST_NAME(Test_, TestName, __COUNTER__), TestName)
+#define TEST_F(TestSuite, TestName) TEST_IMPL(TestSuite, CONCAT_TEST_NAME(TestSuite, TestName, __COUNTER__), TestName)
 
 #define TEST(TestName)              TEST_F(NextagTest::Test, TestName)

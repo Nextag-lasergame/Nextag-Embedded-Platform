@@ -62,6 +62,28 @@ struct Atmega328pDescriptor
             OVERFLOW = _BV(TOIE0)
         };
     };
+    struct Timer1
+    {
+        using DataType = uint16_t;
+
+        static volatile uint8_t & controlA;
+        static volatile uint8_t & controlB;
+        static volatile uint16_t & controlAB;
+
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13));
+        enum class TimerMode
+        {
+            NORMAL = createCombinedRegisterValue(0, 0),
+
+        };
+
+        enum class ClockSelect
+        {
+        };
+        enum class Interrupt
+        {
+        };
+    };
 };
 
 inline volatile uint8_t & Atmega328pDescriptor::Timer0::controlA = TCCR0A;
@@ -71,6 +93,10 @@ inline volatile uint8_t & Atmega328pDescriptor::Timer0::compareA = OCR0A;
 inline volatile uint8_t & Atmega328pDescriptor::Timer0::compareB = OCR0B;
 inline volatile uint8_t & Atmega328pDescriptor::Timer0::counter = TCNT0;
 inline volatile uint8_t & Atmega328pDescriptor::Timer0::interrupt = TIMSK0;
+
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlA = TCCR1A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlB = TCCR1B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::controlAB = reinterpret_cast<volatile uint16_t &>(TCCR1A);
 
 using ChipDescriptor = Atmega328pDescriptor;
 

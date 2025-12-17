@@ -14,9 +14,6 @@
 using namespace NextagEmbeddedPlatform::Peripherals;
 using namespace NextagEmbeddedPlatform::Drivers;
 
-namespace Timer0Tests
-{
-
 class Timer0Tests : public NextagTest::Test
 {
 public:
@@ -32,7 +29,7 @@ public:
 };
 
 
-TEST_F(Timer0Tests, Test_SetModeToNormal_SetsCorrectRegisters)
+TEST_F(Timer0Tests, SetModeToNormal_SetsCorrectRegisters)
 {
     Timer0::setMode(Timer0::TimerMode::NORMAL);
     TEST_ASSERT_EQUAL(0, Timer0::Descriptor::controlAB);
@@ -237,5 +234,3 @@ TEST_F(Timer0Tests, Interrupt_ReturnsReferenceToCorrectRegister)
 {
     TEST_ASSERT_EQUAL(&TIMSK0, &Timer0::interrupt());
 }
-
-} // namespace Timer0Tests

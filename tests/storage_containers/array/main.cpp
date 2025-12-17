@@ -13,57 +13,60 @@
 
 using namespace NextagEmbeddedPlatform::StorageContainers;
 
-static Array<uint32_t, 10> s_array;
-
 void setUp()
 {
-    s_array = Array<uint32_t, 10>{};
 }
 
 void tearDown()
 {
 }
 
-TEST(arrayWithSize10ReturnsSize10)
+class ArrayTest : public NextagTest::Test
 {
-    TEST_ASSERT_EQUAL_INT32(10, s_array.size());
+protected:
+    Array<uint32_t, 10> m_array{};
+};
+
+TEST_F(ArrayTest, arrayWithSize10ReturnsSize10)
+{
+    TEST_ASSERT_EQUAL_INT32(10, m_array.size());
 }
 
-TEST(addingToArrayAddToArrayCorrectly)
+TEST_F(ArrayTest, addingToArrayAddToArrayCorrectly)
 {
-    s_array[0] = 100;
-    TEST_ASSERT_EQUAL_INT32(100, s_array[0]);
+    m_array[0] = 100;
+    TEST_ASSERT_EQUAL_INT32(100, m_array[0]);
 }
 
-TEST(addingTwoItemsToArrayAddToArrayCorrectly)
+TEST_F(ArrayTest, addingTwoItemsToArrayAddToArrayCorrectly)
 {
-    s_array[1] = 200;
-    s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL_INT32(200, s_array[1]);
-    TEST_ASSERT_EQUAL_INT32(1000000, s_array[2]);
+    m_array[1] = 200;
+    m_array[2] = 1000000;
+    TEST_ASSERT_EQUAL_INT32(200, m_array[1]);
+    TEST_ASSERT_EQUAL_INT32(1000000, m_array[2]);
 }
 
-TEST(accessingItemUsingAtWorksCorrectly)
+TEST_F(ArrayTest, accessingItemUsingAtWorksCorrectly)
 {
-    s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL_INT32(s_array[2], s_array.at(2));
+    m_array[2] = 1000000;
+    TEST_ASSERT_EQUAL_INT32(m_array[2], m_array.at(2));
 }
 
-TEST(accessingFirstElementUsingDataFunctionWorksCorrectly)
+TEST_F(ArrayTest, accessingFirstElementUsingDataFunctionWorksCorrectly)
 {
-    s_array[2] = 1000000;
-    TEST_ASSERT_EQUAL_INT32(s_array[2], *((s_array.data()) + 2));
+    m_array[2] = 1000000;
+    TEST_ASSERT_EQUAL_INT32(m_array[2], *((m_array.data()) + 2));
 }
 
-TEST(arraySupportsRangeBasedForLoop)
+TEST_F(ArrayTest, arraySupportsRangeBasedForLoop)
 {
-    for (const auto & _ : s_array)
+    for (const auto & _ : m_array)
     {
         (void)_;
     }
 }
 
-TEST(constArraySupportsRangeBasedForLoop)
+TEST_F(ArrayTest, constArraySupportsRangeBasedForLoop)
 {
     const Array<uint32_t, 5> array{};
 

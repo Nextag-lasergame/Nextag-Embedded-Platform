@@ -21,11 +21,6 @@ void TestCollection::runAllTests()
     for (size_t i = 0; i < m_testList.size(); i++)
     {
         auto & test = *m_testList.at(i);
-        // char testFileBuffer[64] = {0};
-        // char testNameBuffer[128] = {0};
-
-        // strncpy_P(testFileBuffer, test.file(), sizeof(testFileBuffer) - 1);
-        // strncpy_P(testNameBuffer, test.name(), sizeof(testNameBuffer) - 1);
 
         UnitySetTestFile(test.file());
         testToExecute = &test;
