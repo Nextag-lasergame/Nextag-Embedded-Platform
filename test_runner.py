@@ -1,10 +1,14 @@
+#  Copyright © 2025 Tim Herreijgers
+#  Licensed using the MIT license
+
 import subprocess
 import sys
 import platform
 
 argc = len(sys.argv)
 if argc != 4:
-    print("test_runner.py must be run using the following arguments: testrunner.py <.elf file> <mcu> <frequency>", file=sys.stderr)
+    print("test_runner.py must be run using the following arguments: testrunner.py <.elf file> <mcu> <frequency>",
+          file=sys.stderr)
     sys.exit(-1)
 
 file_to_test = str(sys.argv[1])
@@ -14,11 +18,11 @@ freq = str(sys.argv[3])
 if platform.system() is "Windows":
     file_to_test = file_to_test.replace('C:/', '/mnt/c/')
     # On windows simavr is easiest to install under wsl, so we need to add that in from of the test command
-    process = subprocess.Popen(["wsl", "simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
+    process = subprocess.Popen(["wsl", "simavr", "-f", freq, "-m", mcu, file_to_test],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
 else:
-    process = subprocess.Popen(["simavr", "-v", "-v", "-v", "-f", freq, "-m", mcu, file_to_test],
+    process = subprocess.Popen(["simavr", "-f", freq, "-m", mcu, file_to_test],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
 

@@ -37,42 +37,102 @@ TEST_F(Timer1Tests, SetModeToNormal_SetsCorrectRegisters)
 
 TEST_F(Timer1Tests, SetModeToPwmPhaseCorrect8Bit_SetsCorrectRegisters)
 {
-    // Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_8_BIT);
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_8_BIT);
     TEST_ASSERT_EQUAL(_BV(WGM10), Timer1::Descriptor::controlAB);
 }
 
-// TEST_F(Timer1Tests, SetModeToCTC_SetsCorrectRegisters)
-// {
-//     Timer0::setMode(Timer0::TimerMode::CTC);
-//     TEST_ASSERT_EQUAL(_BV(WGM01), Timer0::Descriptor::controlAB);
-// }
-//// TEST_F(Timer1Tests, SetModeToFastPWM_SetsCorrectRegisters)
-// {
-//     Timer0::setMode(Timer0::TimerMode::FAST_PWM);
-//     TEST_ASSERT_EQUAL(_BV(WGM01) | _BV(WGM00), Timer0::Descriptor::controlAB);
-// }
-//
-// TEST_F(Timer1Tests, SetModeToPWMPhaseCorrectComparaATop_SetsCorrectRegisters)
-// {
-//     Timer0::setMode(Timer0::TimerMode::PWM_PHASE_CORRECT_COMPARE_A_TOP);
-//     TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM00), _BV(WGM02)),
-//                       Timer0::Descriptor::controlAB);
-// }
-////  TEST_F(Timer1Tests, SetModeToFastPWMComparaATop_SetsCorrectRegisters)
-// {
-//     Timer0::setMode(Timer0::TimerMode::FAST_PWM_COMPARE_A_TOP);
-//     TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM01) | _BV(WGM00), _BV(WGM02)),
-//                       Timer0::Descriptor::controlAB);
-// }
-//
-// TEST_F(Timer1Tests, SetModeToNormal_AfterSetToCTC_SetsCorrectRegisters)
-// {
-//     Timer0::setMode(Timer0::TimerMode::CTC);
-//     Timer0::setMode(Timer0::TimerMode::NORMAL);
-//
-//     TEST_ASSERT_EQUAL(0, Timer0::Descriptor::controlAB);
-// }
-//
+TEST_F(Timer1Tests, SetModeToPwmPhaseCorrect9Bit_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_9_BIT);
+    TEST_ASSERT_EQUAL(_BV(WGM11), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToPwmPhaseCorrect10Bit_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_10_BIT);
+    TEST_ASSERT_EQUAL(_BV(WGM10) | _BV(WGM11), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToCTC_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::CTC);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(0, _BV(WGM12)), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToFastPWM8Bits_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_8_BIT);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM10), _BV(WGM12)), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToFastPWM9Bits_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_9_BIT);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM11), _BV(WGM12)), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToFastPWM10Bits_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_10_BIT);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12)), Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToPWMPhaseAndFrequencyCorrectInputCaptureTop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_AND_FREQUENCY_CORRECT_INPUT_CAPTURE_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(0, _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToPWMPhaseAndFrequencyCorrectComparaATop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_AND_FREQUENCY_CORRECT_COMPARE_A_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM10), _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToPWMPhaseCorrectInputCaptureTop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_INPUT_CAPTURE_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM11), _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToPWMPhaseCorrectComparaATop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::PWM_PHASE_CORRECT_COMPARE_A_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToCtcInputCaptureTop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::CTC_INPUT_CAPTURE_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(0, _BV(WGM12) | _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToFastPwmInputCaptureTop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_INPUT_CAPTURE_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM11), _BV(WGM12) | _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+
+TEST_F(Timer1Tests, SetModeToFastPwmCompareATop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_COMPARE_A_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13)),
+                      Timer1::Descriptor::controlAB);
+}
+TEST_F(Timer1Tests, SetModeToNormal_AfterSetToFastPwmCompareATop_SetsCorrectRegisters)
+{
+    Timer1::setMode(Timer1::TimerMode::FAST_PWM_COMPARE_A_TOP);
+    Timer1::setMode(Timer1::TimerMode::NORMAL);
+
+    TEST_ASSERT_EQUAL(0, Timer1::Descriptor::controlAB);
+}
+
 // TEST_F(Timer1Tests, SetClockSource_SetsCorrectRegisterValue)
 // {
 //     Timer0::setClockSource(Timer0::ClockSelect::PRESCALER_1);

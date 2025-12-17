@@ -10,17 +10,6 @@
 namespace NextagTest
 {
 
-TestList::~TestList()
-{
-    auto head = m_head;
-    while (head != nullptr)
-    {
-        auto next = head->next;
-        delete head;
-        head = next;
-    }
-}
-
 auto TestList::size() const noexcept -> size_t
 {
     return m_size;
@@ -33,32 +22,17 @@ auto TestList::at(size_t index) const noexcept -> Test *
         return nullptr;
     }
 
-    auto head = m_head;
-    for (size_t i = 0; i < index; i++)
-    {
-        head = head->next;
-    }
-
-    return head->test;
+    return m_tests[index];
 }
 
 void TestList::add(Test * test)
 {
-    auto node = new TestListNode{test, nullptr};
-    m_size++;
-
-    if (m_head == nullptr)
+    if (m_size + 1 == MAX_TESTS)
     {
-        m_head = node;
-        return;
+        asm("jmp __bad_interrupt");
     }
 
-    auto head = m_head;
-    while (head->next != nullptr)
-    {
-        head = head->next;
-    }
-    head->next = node;
+    m_tests[m_size++] = test;
 }
 
 } // namespace NextagTest

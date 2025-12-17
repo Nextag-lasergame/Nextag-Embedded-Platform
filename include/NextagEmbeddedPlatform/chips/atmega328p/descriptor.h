@@ -74,7 +74,20 @@ struct Atmega328pDescriptor
         enum class TimerMode
         {
             NORMAL = createCombinedRegisterValue(0, 0),
-
+            PWM_PHASE_CORRECT_8_BIT = createCombinedRegisterValue(_BV(WGM10), 0),
+            PWM_PHASE_CORRECT_9_BIT = createCombinedRegisterValue(_BV(WGM11), 0),
+            PWM_PHASE_CORRECT_10_BIT = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), 0),
+            CTC = createCombinedRegisterValue(0, _BV(WGM12)),
+            FAST_PWM_8_BIT = createCombinedRegisterValue(_BV(WGM10), _BV(WGM12)),
+            FAST_PWM_9_BIT = createCombinedRegisterValue(_BV(WGM11), _BV(WGM12)),
+            FAST_PWM_10_BIT = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12)),
+            PWM_PHASE_AND_FREQUENCY_CORRECT_INPUT_CAPTURE_TOP = createCombinedRegisterValue(0, _BV(WGM13)),
+            PWM_PHASE_AND_FREQUENCY_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10), _BV(WGM13)),
+            PWM_PHASE_CORRECT_INPUT_CAPTURE_TOP = createCombinedRegisterValue(_BV(WGM11), _BV(WGM13)),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM13)),
+            CTC_INPUT_CAPTURE_TOP = createCombinedRegisterValue(0, _BV(WGM12) | _BV(WGM13)),
+            FAST_PWM_INPUT_CAPTURE_TOP = createCombinedRegisterValue(_BV(WGM11), _BV(WGM12) | _BV(WGM13)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13))
         };
 
         enum class ClockSelect
