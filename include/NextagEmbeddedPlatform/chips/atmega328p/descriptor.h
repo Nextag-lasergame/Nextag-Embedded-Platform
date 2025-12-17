@@ -31,11 +31,15 @@ struct Atmega328pDescriptor
         static volatile uint8_t & counter;
         static volatile uint8_t & interrupt;
 
-        static constexpr uint8_t timerModeMask = _BV(CS00) | _BV(CS01) | _BV(CS02);
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM00) | _BV(WGM01), _BV(WGM02));
         enum class TimerMode
         {
             NORMAL = createCombinedRegisterValue(0, 0),
-            CTC = createCombinedRegisterValue(_BV(WGM01), 0)
+            PWM_PHASE_CORRECT = createCombinedRegisterValue(_BV(WGM00), 0),
+            CTC = createCombinedRegisterValue(_BV(WGM01), 0),
+            FAST_PWM = createCombinedRegisterValue(_BV(WGM01) | _BV(WGM00), 0),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM00), _BV(WGM02)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM00) | _BV(WGM01), _BV(WGM02)),
         };
 
         static constexpr uint8_t clockSelectMask = _BV(CS00) | _BV(CS01) | _BV(CS02);

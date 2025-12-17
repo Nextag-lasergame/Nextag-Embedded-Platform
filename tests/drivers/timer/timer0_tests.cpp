@@ -8,6 +8,7 @@
 #include "NextagEmbeddedPlatform/peripherals.h"
 
 #include <avr/io.h>
+
 #include <unity.h>
 
 using namespace NextagEmbeddedPlatform::Peripherals;
@@ -30,27 +31,51 @@ public:
     }
 };
 
-TEST_F(Timer0Tests, SetModeToNormal_SetsCorrectRegisters)
+
+TEST_F(Timer0Tests, Test_SetModeToNormal_SetsCorrectRegisters)
 {
     Timer0::setMode(Timer0::TimerMode::NORMAL);
-    TEST_ASSERT_BITS_LOW(_BV(WGM01) | _BV(WGM00), TCCR0A);
-    TEST_ASSERT_BIT_LOW(_BV(WGM02), TCCR0B);
+    TEST_ASSERT_EQUAL(0, Timer0::Descriptor::controlAB);
+}
+
+TEST_F(Timer0Tests, SetModeToPwmPhaseCorrect_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::PWM_PHASE_CORRECT);
+    TEST_ASSERT_EQUAL(_BV(WGM00), Timer0::Descriptor::controlAB);
 }
 
 TEST_F(Timer0Tests, SetModeToCTC_SetsCorrectRegisters)
 {
     Timer0::setMode(Timer0::TimerMode::CTC);
-    TEST_ASSERT_BITS_HIGH(_BV(WGM01), TCCR0A);
-    TEST_ASSERT_BITS_LOW(_BV(WGM00), TCCR0A);
-    TEST_ASSERT_BITS_LOW(_BV(WGM02), TCCR0B);
+    TEST_ASSERT_EQUAL(_BV(WGM01), Timer0::Descriptor::controlAB);
+}
+
+TEST_F(Timer0Tests, SetModeToFastPWM_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::FAST_PWM);
+    TEST_ASSERT_EQUAL(_BV(WGM01) | _BV(WGM00), Timer0::Descriptor::controlAB);
+}
+
+TEST_F(Timer0Tests, SetModeToPWMPhaseCorrectComparaATop_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::PWM_PHASE_CORRECT_COMPARE_A_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM00), _BV(WGM02)),
+                      Timer0::Descriptor::controlAB);
+}
+
+TEST_F(Timer0Tests, SetModeToFastPWMComparaATop_SetsCorrectRegisters)
+{
+    Timer0::setMode(Timer0::TimerMode::FAST_PWM_COMPARE_A_TOP);
+    TEST_ASSERT_EQUAL(NextagEmbeddedPlatform::createCombinedRegisterValue(_BV(WGM01) | _BV(WGM00), _BV(WGM02)),
+                      Timer0::Descriptor::controlAB);
 }
 
 TEST_F(Timer0Tests, SetModeToNormal_AfterSetToCTC_SetsCorrectRegisters)
 {
     Timer0::setMode(Timer0::TimerMode::CTC);
     Timer0::setMode(Timer0::TimerMode::NORMAL);
-    TEST_ASSERT_BITS_LOW(_BV(WGM01) | _BV(WGM00), TCCR0A);
-    TEST_ASSERT_BIT_LOW(_BV(WGM02), TCCR0B);
+
+    TEST_ASSERT_EQUAL(0, Timer0::Descriptor::controlAB);
 }
 
 TEST_F(Timer0Tests, SetClockSource_SetsCorrectRegisterValue)
@@ -82,7 +107,7 @@ TEST_F(Timer0Tests, Stop_ClearsPrescalerBitsInRegister)
     TCCR0B = 0xFF;
     Timer0::stop();
 
-    TEST_ASSERT_BITS_LOW((_BV(CS02) | _BV(CS01) | _BV(CS00)), TCCR0B);
+    TEST_ASSERT_EQUAL(0xFF & ~((_BV(CS02) | _BV(CS01) | _BV(CS00))), TCCR0B);
 }
 
 TEST_F(Timer0Tests, SetCompareA_SetsCorrectRegisters)
@@ -113,25 +138,25 @@ TEST_F(Timer0Tests, ResetCounter_SetsCounterBackToZero)
 TEST_F(Timer0Tests, SetInterruptWithCompareAEnabled_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_A);
-    TEST_ASSERT_BITS_HIGH(_BV(OCIE0A), TIMSK0);
+    TEST_ASSERT_EQUAL(_BV(OCIE0A), TIMSK0);
 }
 
 TEST_F(Timer0Tests, SetInterruptWithCompareBEnabled_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_B);
-    TEST_ASSERT_BITS_HIGH(_BV(OCIE0B), TIMSK0);
+    TEST_ASSERT_EQUAL(_BV(OCIE0B), TIMSK0);
 }
 
 TEST_F(Timer0Tests, SetInterruptWithOverflowEnabled_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::OVERFLOW);
-    TEST_ASSERT_BITS_HIGH(_BV(TOIE0), TIMSK0);
+    TEST_ASSERT_EQUAL(_BV(TOIE0), TIMSK0);
 }
 
 TEST_F(Timer0Tests, SetInterruptWithAllEnabled_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_A, Timer0::Interrupt::COMPARE_B, Timer0::Interrupt::OVERFLOW);
-    TEST_ASSERT_BITS_HIGH(_BV(OCIE0A) | _BV(OCIE0B) | _BV(TOIE0), TIMSK0);
+    TEST_ASSERT_EQUAL(_BV(OCIE0A) | _BV(OCIE0B) | _BV(TOIE0), TIMSK0);
 }
 
 TEST_F(Timer0Tests, SetInterrupt_EnablesInterruptsInStatusRegister)
@@ -144,28 +169,28 @@ TEST_F(Timer0Tests, ResetInterruptWithCompareA_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_A);
     Timer0::resetInterrupt(Timer0::Interrupt::COMPARE_A);
-    TEST_ASSERT_BIT_LOW(_BV(OCIE0A), TIMSK0);
+    TEST_ASSERT_EQUAL(0, TIMSK0);
 }
 
 TEST_F(Timer0Tests, ResetInterruptWithCompareB_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_B);
     Timer0::resetInterrupt(Timer0::Interrupt::COMPARE_B);
-    TEST_ASSERT_BIT_LOW(_BV(OCIE0B), TIMSK0);
+    TEST_ASSERT_EQUAL(0, TIMSK0);
 }
 
 TEST_F(Timer0Tests, ResetInterruptWithOverflow_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::OVERFLOW);
     Timer0::resetInterrupt(Timer0::Interrupt::OVERFLOW);
-    TEST_ASSERT_BIT_LOW(_BV(TOIE0), TIMSK0);
+    TEST_ASSERT_EQUAL(0, TIMSK0);
 }
 
 TEST_F(Timer0Tests, ResetInterruptWithAll_SetsCorrectRegisters)
 {
     Timer0::setInterrupt(Timer0::Interrupt::COMPARE_A, Timer0::Interrupt::COMPARE_B, Timer0::Interrupt::OVERFLOW);
     Timer0::resetInterrupt(Timer0::Interrupt::COMPARE_A, Timer0::Interrupt::COMPARE_B, Timer0::Interrupt::OVERFLOW);
-    TEST_ASSERT_BITS_LOW(_BV(OCIE0A) | _BV(OCIE0B) | _BV(TOIE0), TIMSK0);
+    TEST_ASSERT_EQUAL(0, TIMSK0);
 }
 
 TEST_F(Timer0Tests, ResetInterruptWithAllEnabled_SetsCorrectRegisters)
