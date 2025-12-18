@@ -69,6 +69,10 @@ struct Atmega328pDescriptor
         static volatile uint8_t & controlA;
         static volatile uint8_t & controlB;
         static volatile uint16_t & controlAB;
+        static volatile uint16_t & compareA;
+        static volatile uint16_t & compareB;
+        static volatile uint16_t & counter;
+        static volatile uint8_t & interrupt;
 
         static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13));
         enum class TimerMode
@@ -90,11 +94,25 @@ struct Atmega328pDescriptor
             FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13))
         };
 
+        static constexpr uint8_t clockSelectMask = _BV(CS12) | _BV(CS11) | _BV(CS10);
         enum class ClockSelect
         {
+            NO_CLOCK_SOURCE = 0,
+            PRESCALER_1 = _BV(CS10),
+            PRESCALER_8 = _BV(CS11),
+            PRESCALER_64 = _BV(CS11) | _BV(CS10),
+            PRESCALER_256 = _BV(CS12),
+            PRESCALER_1024 = _BV(CS12) | _BV(CS10),
+            EXTERNAL_SOURCE_FALLING_EDGE = _BV(CS12) | _BV(CS11),
+            EXTERNAL_SOURCE_RISING_EDGE = _BV(CS12) | _BV(CS11) | _BV(CS10),
         };
+
         enum class Interrupt
         {
+            COMPARE_A = _BV(OCIE1A),
+            COMPARE_B = _BV(OCIE1B),
+            OVERFLOW = _BV(TOIE1),
+            INPUT_CAPTURE = _BV(ICIE1)
         };
     };
 };
@@ -110,6 +128,10 @@ inline volatile uint8_t & Atmega328pDescriptor::Timer0::interrupt = TIMSK0;
 inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlA = TCCR1A;
 inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlB = TCCR1B;
 inline volatile uint16_t & Atmega328pDescriptor::Timer1::controlAB = reinterpret_cast<volatile uint16_t &>(TCCR1A);
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareA = OCR1A;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareB = OCR1B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::counter = TCNT1;
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::interrupt = TIMSK1;
 
 using ChipDescriptor = Atmega328pDescriptor;
 

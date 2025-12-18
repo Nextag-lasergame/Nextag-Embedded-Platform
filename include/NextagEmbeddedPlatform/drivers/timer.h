@@ -13,6 +13,7 @@
 namespace NextagEmbeddedPlatform::Drivers
 {
 
+// TODO: Add support for force output pin
 template <typename TimerDescriptor>
 class Timer
 {
@@ -98,19 +99,19 @@ public:
         return TimerDescriptor::controlB;
     }
 
-    static auto compareA() -> volatile uint8_t &
+    static auto compareA() -> volatile DataType &
         requires HasTimerCompareA<TimerDescriptor>
     {
         return TimerDescriptor::compareA;
     }
 
-    static auto compareB() -> volatile uint8_t &
+    static auto compareB() -> volatile DataType &
         requires HasTimerCompareB<TimerDescriptor>
     {
         return TimerDescriptor::compareB;
     }
 
-    static auto counter() -> volatile uint8_t &
+    static auto counter() -> volatile DataType &
         requires HasTimerCounter<TimerDescriptor>
     {
         return TimerDescriptor::counter;

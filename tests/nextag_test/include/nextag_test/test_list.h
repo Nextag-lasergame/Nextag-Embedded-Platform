@@ -10,7 +10,7 @@
 namespace NextagTest
 {
 
-static constexpr size_t MAX_TESTS = 124;
+static constexpr size_t MAX_TESTS = 128;
 
 class TestList
 {

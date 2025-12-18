@@ -19,6 +19,7 @@ class Timer0Tests : public NextagTest::Test
 public:
     void setUp() override
     {
+        cli();
         TCCR0A = 0;
         TCCR0B = 0;
         OCR0A = 0;
