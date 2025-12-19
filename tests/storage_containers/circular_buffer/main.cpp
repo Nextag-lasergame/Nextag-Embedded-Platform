@@ -13,35 +13,38 @@
 
 using namespace NextagEmbeddedPlatform::StorageContainers;
 
-static CircularBuffer<uint8_t, 10> s_buffer;
-
 void setUp()
 {
-    s_buffer = CircularBuffer<uint8_t, 10>{};
 }
 
 void tearDown()
 {
 }
 
-TEST(emptyBufferReturnsBufferAvailableBytesOf0)
+class CircularBufferTest : public NextagTest::Test
+{
+protected:
+    CircularBuffer<uint8_t, 10> s_buffer{};
+};
+
+TEST_F(CircularBufferTest, emptyBufferReturnsBufferAvailableBytesOf0)
 {
     TEST_ASSERT_EQUAL(0, s_buffer.count());
 }
 
-TEST(addingToBufferReturnsCorrectAvailability)
+TEST_F(CircularBufferTest, addingToBufferReturnsCorrectAvailability)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
     TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
-TEST(addingToBufferReturnsTrueOnSuccess)
+TEST_F(CircularBufferTest, addingToBufferReturnsTrueOnSuccess)
 {
     TEST_ASSERT_TRUE(s_buffer.push_back(0));
 }
 
-TEST(addingToBufferWhenBufferIsFullReturnFalse)
+TEST_F(CircularBufferTest, addingToBufferWhenBufferIsFullReturnFalse)
 {
     for (auto i = 0; i < 10; i++)
     {
@@ -51,7 +54,7 @@ TEST(addingToBufferWhenBufferIsFullReturnFalse)
     TEST_ASSERT_FALSE(s_buffer.push_back(0));
 }
 
-TEST(poppingFromBufferChangesAvailability)
+TEST_F(CircularBufferTest, poppingFromBufferChangesAvailability)
 {
     s_buffer.push_back(0);
     s_buffer.push_back(0);
@@ -60,7 +63,7 @@ TEST(poppingFromBufferChangesAvailability)
     TEST_ASSERT_EQUAL(1, s_buffer.count());
 }
 
-TEST(poppingFromBufferReturnsCorrectData)
+TEST_F(CircularBufferTest, poppingFromBufferReturnsCorrectData)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
@@ -69,7 +72,7 @@ TEST(poppingFromBufferReturnsCorrectData)
     TEST_ASSERT_EQUAL(20, s_buffer.pop());
 }
 
-TEST(poppingFromBufferSizeOverflowReturnsCorrectData)
+TEST_F(CircularBufferTest, poppingFromBufferSizeOverflowReturnsCorrectData)
 {
     for (auto i = 0; i < 10; i++)
     {
@@ -81,7 +84,7 @@ TEST(poppingFromBufferSizeOverflowReturnsCorrectData)
     TEST_ASSERT_EQUAL(10, s_buffer.pop());
 }
 
-TEST(checkingAvailabilityOnCounterOverflowStillWorks)
+TEST_F(CircularBufferTest, checkingAvailabilityOnCounterOverflowStillWorks)
 {
     for (uint32_t i = 0; i < 65534; i++)
     {
@@ -100,14 +103,14 @@ TEST(checkingAvailabilityOnCounterOverflowStillWorks)
     TEST_ASSERT_EQUAL(5, s_buffer.count());
 }
 
-TEST(poppingOnEmptyBufferReturnsDefaultConstructedObject)
+TEST_F(CircularBufferTest, poppingOnEmptyBufferReturnsDefaultConstructedObject)
 {
     s_buffer.push_back(10);
     TEST_ASSERT_EQUAL(10, s_buffer.pop());
     TEST_ASSERT_EQUAL(uint16_t{}, s_buffer.pop());
 }
 
-TEST(peekDoesntChangeAvailability)
+TEST_F(CircularBufferTest, peekDoesntChangeAvailability)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);
@@ -116,7 +119,7 @@ TEST(peekDoesntChangeAvailability)
     TEST_ASSERT_EQUAL(2, s_buffer.count());
 }
 
-TEST(peekReturnCorrectValue)
+TEST_F(CircularBufferTest, peekReturnCorrectValue)
 {
     s_buffer.push_back(10);
     s_buffer.push_back(20);

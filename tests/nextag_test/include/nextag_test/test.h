@@ -14,7 +14,6 @@ class Test
 {
 public:
     explicit Test() = default;
-    virtual ~Test() = default;
 
     virtual void operator()() = 0;
 
@@ -27,15 +26,8 @@ public:
 
     void setMetaData(const char * name, const char * file, int line);
 
-    void * operator new(size_t size)
-    {
-        return malloc(size);
-    }
-
-    void operator delete(void * ptr)
-    {
-        free(ptr);
-    }
+protected:
+    ~Test() = default;
 
 private:
     const char * m_name = "";

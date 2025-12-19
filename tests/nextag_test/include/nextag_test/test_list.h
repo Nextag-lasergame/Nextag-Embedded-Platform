@@ -7,32 +7,16 @@
 
 #include "test.h"
 
-#include <stdio.h>
-
 namespace NextagTest
 {
 
-struct TestListNode
-{
-    Test * test{nullptr};
-    TestListNode * next{nullptr};
-
-    void * operator new(size_t size)
-    {
-        return malloc(size);
-    }
-
-    void operator delete(void * ptr)
-    {
-        free(ptr);
-    }
-};
+static constexpr size_t MAX_TESTS = 128;
 
 class TestList
 {
 public:
     TestList() = default;
-    ~TestList();
+    ~TestList() = default;
     TestList(const TestList &) = delete;
     TestList(TestList &&) = delete;
     TestList & operator=(const TestList &) = delete;
@@ -43,7 +27,7 @@ public:
     void add(Test * test);
 
 private:
-    TestListNode * m_head{nullptr};
+    Test * m_tests[MAX_TESTS];
     size_t m_size{0};
 };
 

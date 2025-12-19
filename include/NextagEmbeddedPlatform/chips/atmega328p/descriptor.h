@@ -1,0 +1,189 @@
+/*
+ * Copyright © 2025 Tim Herreijgers
+ * Licensed using the MIT license
+ */
+
+#pragma once
+
+#include <avr/io.h>
+
+namespace NextagEmbeddedPlatform
+{
+
+static auto consteval createCombinedRegisterValue(uint8_t lower, uint8_t higher) -> uint16_t
+{
+    uint16_t result = 0;
+    result |= (static_cast<uint16_t>(higher) << 8) | lower;
+    return result;
+}
+
+struct Atmega328pDescriptor
+{
+    struct Timer0
+    {
+        using DataType = uint8_t;
+
+        static volatile uint8_t & controlA;
+        static volatile uint8_t & controlB;
+        static volatile uint16_t & controlAB;
+        static volatile uint8_t & compareA;
+        static volatile uint8_t & compareB;
+        static volatile uint8_t & counter;
+        static volatile uint8_t & interrupt;
+
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM00) | _BV(WGM01), _BV(WGM02));
+        enum class TimerMode
+        {
+            NORMAL = createCombinedRegisterValue(0, 0),
+            PWM_PHASE_CORRECT = createCombinedRegisterValue(_BV(WGM00), 0),
+            CTC = createCombinedRegisterValue(_BV(WGM01), 0),
+            FAST_PWM = createCombinedRegisterValue(_BV(WGM01) | _BV(WGM00), 0),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM00), _BV(WGM02)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM00) | _BV(WGM01), _BV(WGM02)),
+        };
+
+        static constexpr uint8_t clockSelectMask = _BV(CS00) | _BV(CS01) | _BV(CS02);
+        enum class ClockSelect
+        {
+            NO_CLOCK_SOURCE = 0,
+            PRESCALER_1 = _BV(CS00),
+            PRESCALER_8 = _BV(CS01),
+            PRESCALER_64 = _BV(CS01) | _BV(CS00),
+            PRESCALER_256 = _BV(CS02),
+            PRESCALER_1024 = _BV(CS02) | _BV(CS00),
+            EXTERNAL_SOURCE_FALLING_EDGE = _BV(CS02) | _BV(CS01),
+            EXTERNAL_SOURCE_RISING_EDGE = _BV(CS02) | _BV(CS01) | _BV(CS00),
+        };
+
+        enum class Interrupt
+        {
+            COMPARE_A = _BV(OCIE0A),
+            COMPARE_B = _BV(OCIE0B),
+            OVERFLOW = _BV(TOIE0)
+        };
+    };
+    struct Timer1
+    {
+        using DataType = uint16_t;
+
+        static volatile uint8_t & controlA;
+        static volatile uint8_t & controlB;
+        static volatile uint16_t & controlAB;
+        static volatile uint16_t & compareA;
+        static volatile uint16_t & compareB;
+        static volatile uint16_t & counter;
+        static volatile uint8_t & interrupt;
+
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13));
+        enum class TimerMode
+        {
+            NORMAL = createCombinedRegisterValue(0, 0),
+            PWM_PHASE_CORRECT_8_BIT = createCombinedRegisterValue(_BV(WGM10), 0),
+            PWM_PHASE_CORRECT_9_BIT = createCombinedRegisterValue(_BV(WGM11), 0),
+            PWM_PHASE_CORRECT_10_BIT = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), 0),
+            CTC = createCombinedRegisterValue(0, _BV(WGM12)),
+            FAST_PWM_8_BIT = createCombinedRegisterValue(_BV(WGM10), _BV(WGM12)),
+            FAST_PWM_9_BIT = createCombinedRegisterValue(_BV(WGM11), _BV(WGM12)),
+            FAST_PWM_10_BIT = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12)),
+            PWM_PHASE_AND_FREQUENCY_CORRECT_INPUT_CAPTURE_TOP = createCombinedRegisterValue(0, _BV(WGM13)),
+            PWM_PHASE_AND_FREQUENCY_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10), _BV(WGM13)),
+            PWM_PHASE_CORRECT_INPUT_CAPTURE_TOP = createCombinedRegisterValue(_BV(WGM11), _BV(WGM13)),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM13)),
+            CTC_INPUT_CAPTURE_TOP = createCombinedRegisterValue(0, _BV(WGM12) | _BV(WGM13)),
+            FAST_PWM_INPUT_CAPTURE_TOP = createCombinedRegisterValue(_BV(WGM11), _BV(WGM12) | _BV(WGM13)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM10) | _BV(WGM11), _BV(WGM12) | _BV(WGM13))
+        };
+
+        static constexpr uint8_t clockSelectMask = _BV(CS12) | _BV(CS11) | _BV(CS10);
+        enum class ClockSelect
+        {
+            NO_CLOCK_SOURCE = 0,
+            PRESCALER_1 = _BV(CS10),
+            PRESCALER_8 = _BV(CS11),
+            PRESCALER_64 = _BV(CS11) | _BV(CS10),
+            PRESCALER_256 = _BV(CS12),
+            PRESCALER_1024 = _BV(CS12) | _BV(CS10),
+            EXTERNAL_SOURCE_FALLING_EDGE = _BV(CS12) | _BV(CS11),
+            EXTERNAL_SOURCE_RISING_EDGE = _BV(CS12) | _BV(CS11) | _BV(CS10),
+        };
+
+        enum class Interrupt
+        {
+            COMPARE_A = _BV(OCIE1A),
+            COMPARE_B = _BV(OCIE1B),
+            OVERFLOW = _BV(TOIE1),
+            INPUT_CAPTURE = _BV(ICIE1)
+        };
+    };
+    struct Timer2
+    {
+        using DataType = uint8_t;
+
+        static volatile uint8_t & controlA;
+        static volatile uint8_t & controlB;
+        static volatile uint16_t & controlAB;
+        static volatile uint8_t & compareA;
+        static volatile uint8_t & compareB;
+        static volatile uint8_t & counter;
+        static volatile uint8_t & interrupt;
+
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM20) | _BV(WGM21), _BV(WGM22));
+        enum class TimerMode
+        {
+            NORMAL = createCombinedRegisterValue(0, 0),
+            PWM_PHASE_CORRECT = createCombinedRegisterValue(_BV(WGM20), 0),
+            CTC = createCombinedRegisterValue(_BV(WGM21), 0),
+            FAST_PWM = createCombinedRegisterValue(_BV(WGM21) | _BV(WGM20), 0),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM20), _BV(WGM22)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM20) | _BV(WGM21), _BV(WGM22)),
+        };
+
+        static constexpr uint8_t clockSelectMask = _BV(CS20) | _BV(CS21) | _BV(CS22);
+        enum class ClockSelect
+        {
+            NO_CLOCK_SOURCE = 0,
+            PRESCALER_1 = _BV(CS20),
+            PRESCALER_8 = _BV(CS21),
+            PRESCALER_32 = _BV(CS21) | _BV(CS20),
+            PRESCALER_64 = _BV(CS22),
+            PRESCALER_128 = _BV(CS22) | _BV(CS20),
+            PRESCALER_256 = _BV(CS22) | _BV(CS21),
+            PRESCALER_1024 = _BV(CS22) | _BV(CS21) | _BV(CS20),
+        };
+
+        enum class Interrupt
+        {
+            COMPARE_A = _BV(OCIE2A),
+            COMPARE_B = _BV(OCIE2B),
+            OVERFLOW = _BV(TOIE2)
+        };
+    };
+};
+
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::controlA = TCCR0A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::controlB = TCCR0B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer0::controlAB = reinterpret_cast<volatile uint16_t &>((TCCR0A));
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::compareA = OCR0A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::compareB = OCR0B;
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::counter = TCNT0;
+inline volatile uint8_t & Atmega328pDescriptor::Timer0::interrupt = TIMSK0;
+
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlA = TCCR1A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::controlB = TCCR1B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::controlAB = reinterpret_cast<volatile uint16_t &>(TCCR1A);
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareA = OCR1A;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareB = OCR1B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer1::counter = TCNT1;
+inline volatile uint8_t & Atmega328pDescriptor::Timer1::interrupt = TIMSK1;
+
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::controlA = TCCR2A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::controlB = TCCR2B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer2::controlAB = reinterpret_cast<volatile uint16_t &>((TCCR2A));
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::compareA = OCR2A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::compareB = OCR2B;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::counter = TCNT2;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::interrupt = TIMSK2;
+
+using ChipDescriptor = Atmega328pDescriptor;
+
+} // namespace NextagEmbeddedPlatform
