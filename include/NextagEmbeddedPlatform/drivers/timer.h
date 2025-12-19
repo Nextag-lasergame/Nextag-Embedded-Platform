@@ -19,10 +19,10 @@ class Timer
 {
 public:
     using Descriptor = TimerDescriptor;
-    using TimerMode = typename TimerDescriptor::TimerMode;
-    using ClockSelect = typename TimerDescriptor::ClockSelect;
-    using Interrupt = typename TimerDescriptor::Interrupt;
-    using DataType = typename TimerDescriptor::DataType;
+    using TimerMode = TimerDescriptor::TimerMode;
+    using ClockSelect = TimerDescriptor::ClockSelect;
+    using Interrupt = TimerDescriptor::Interrupt;
+    using DataType = TimerDescriptor::DataType;
 
     Timer() = delete;
 

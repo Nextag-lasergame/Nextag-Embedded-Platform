@@ -115,6 +115,49 @@ struct Atmega328pDescriptor
             INPUT_CAPTURE = _BV(ICIE1)
         };
     };
+    struct Timer2
+    {
+        using DataType = uint8_t;
+
+        static volatile uint8_t & controlA;
+        static volatile uint8_t & controlB;
+        static volatile uint16_t & controlAB;
+        static volatile uint8_t & compareA;
+        static volatile uint8_t & compareB;
+        static volatile uint8_t & counter;
+        static volatile uint8_t & interrupt;
+
+        static constexpr uint16_t timerModeMask = createCombinedRegisterValue(_BV(WGM20) | _BV(WGM21), _BV(WGM22));
+        enum class TimerMode
+        {
+            NORMAL = createCombinedRegisterValue(0, 0),
+            PWM_PHASE_CORRECT = createCombinedRegisterValue(_BV(WGM20), 0),
+            CTC = createCombinedRegisterValue(_BV(WGM21), 0),
+            FAST_PWM = createCombinedRegisterValue(_BV(WGM21) | _BV(WGM20), 0),
+            PWM_PHASE_CORRECT_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM20), _BV(WGM22)),
+            FAST_PWM_COMPARE_A_TOP = createCombinedRegisterValue(_BV(WGM20) | _BV(WGM21), _BV(WGM22)),
+        };
+
+        static constexpr uint8_t clockSelectMask = _BV(CS20) | _BV(CS21) | _BV(CS22);
+        enum class ClockSelect
+        {
+            NO_CLOCK_SOURCE = 0,
+            PRESCALER_1 = _BV(CS20),
+            PRESCALER_8 = _BV(CS21),
+            PRESCALER_32 = _BV(CS21) | _BV(CS20),
+            PRESCALER_64 = _BV(CS22),
+            PRESCALER_128 = _BV(CS22) | _BV(CS20),
+            PRESCALER_256 = _BV(CS22) | _BV(CS21),
+            PRESCALER_1024 = _BV(CS22) | _BV(CS21) | _BV(CS20),
+        };
+
+        enum class Interrupt
+        {
+            COMPARE_A = _BV(OCIE2A),
+            COMPARE_B = _BV(OCIE2B),
+            OVERFLOW = _BV(TOIE2)
+        };
+    };
 };
 
 inline volatile uint8_t & Atmega328pDescriptor::Timer0::controlA = TCCR0A;
@@ -132,6 +175,14 @@ inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareA = OCR1A;
 inline volatile uint16_t & Atmega328pDescriptor::Timer1::compareB = OCR1B;
 inline volatile uint16_t & Atmega328pDescriptor::Timer1::counter = TCNT1;
 inline volatile uint8_t & Atmega328pDescriptor::Timer1::interrupt = TIMSK1;
+
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::controlA = TCCR2A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::controlB = TCCR2B;
+inline volatile uint16_t & Atmega328pDescriptor::Timer2::controlAB = reinterpret_cast<volatile uint16_t &>((TCCR2A));
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::compareA = OCR2A;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::compareB = OCR2B;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::counter = TCNT2;
+inline volatile uint8_t & Atmega328pDescriptor::Timer2::interrupt = TIMSK2;
 
 using ChipDescriptor = Atmega328pDescriptor;
 
